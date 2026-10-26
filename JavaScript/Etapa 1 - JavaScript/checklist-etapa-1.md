@@ -4,8 +4,8 @@ Detalhes de cada parte estão nos arquivos `goal.md` de cada pasta.
 
 ## 1a: Base da linguagem
 
-- [ ] 01 Onde você está
-- [ ] 02 Variáveis com `let` e `const`
+- [x] 01 Onde você está
+- [x] 02 Variáveis com `let` e `const`
 - [ ] 03 Tipos e operadores
 - [ ] 04 Condicionais: `if`, `else` e `switch`
 - [ ] 05 Loops: `for`, `while` e `for...of`

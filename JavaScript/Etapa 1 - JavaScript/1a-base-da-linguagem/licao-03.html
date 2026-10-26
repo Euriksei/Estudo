@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lição 03: Tipos e operadores</title>
+<style>
+  :root {
+    --bg: #faf8f4; --fg: #1f1d1a; --muted: #6b665e; --card: #ffffff;
+    --border: #e4dfd6; --accent: #b4530a; --code-bg: #f1ede6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+      --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+    --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+  .eyebrow { color: var(--muted); font-size: 14px; margin: 0; }
+  h1 { font-size: 28px; margin: 4px 0 8px; }
+  h2 { font-size: 20px; margin: 36px 0 8px; }
+  h3 { font-size: 17px; margin: 24px 0 6px; }
+  .lead { color: var(--muted); margin-top: 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+  }
+  .q { font-weight: 600; }
+  pre {
+    background: var(--code-bg); border-radius: 8px; padding: 12px 14px;
+    overflow-x: auto; font-size: 14px; line-height: 1.5;
+  }
+  code { font-family: ui-monospace, Consolas, monospace; }
+  p code, li code, td code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  details { margin-top: 10px; color: var(--muted); }
+  summary { cursor: pointer; color: var(--accent); }
+  ol, ul { padding-left: 22px; }
+  .tag { display: inline-block; font-size: 12px; color: var(--accent);
+         border: 1px solid var(--accent); border-radius: 999px; padding: 0 8px; margin-bottom: 6px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { border-bottom: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Etapa 1a · Base da linguagem · Lição 03 de 06</p>
+  <h1>Tipos e operadores</h1>
+  <p class="lead">Por que <code>"concluido: " + true</code> virou texto e <code>undefined + 10</code> virou <code>NaN</code>.</p>
+
+  <h2>Por que isso importa</h2>
+  <p>Todo valor em JavaScript tem um <strong>tipo</strong>, e o tipo decide o que um operador faz com ele. O mesmo <code>+</code> soma dois números, mas junta dois textos. Quando os tipos se misturam, o JavaScript <strong>converte sozinho</strong> um deles, sem avisar. Isso se chama <em>coerção</em>, e é a origem do seu <code>NaN</code>.</p>
+  <p>No gerenciador de tarefas isso vai acontecer de verdade: tudo o que chega de um formulário ou de uma requisição chega como <strong>texto</strong>. Uma prioridade digitada como 3 chega como <code>"3"</code>. Se você somar sem converter, o resultado sai errado e nenhum erro aparece.</p>
+
+  <h2>Os tipos básicos</h2>
+  <div class="table-wrap">
+  <table>
+    <tr><th>Tipo</th><th>Exemplos</th><th>Para quê</th></tr>
+    <tr><td>número (<code>number</code>)</td><td><code>3</code>, <code>-1.5</code>, <code>NaN</code></td><td>contas</td></tr>
+    <tr><td>texto (<code>string</code>)</td><td><code>"Tarefa_1"</code>, <code>"3"</code>, <code>""</code></td><td>nomes, mensagens</td></tr>
+    <tr><td>booleano (<code>boolean</code>)</td><td><code>true</code>, <code>false</code></td><td>sim ou não</td></tr>
+    <tr><td><code>undefined</code></td><td><code>undefined</code></td><td>"ainda não recebeu valor" (o JavaScript coloca sozinho)</td></tr>
+    <tr><td><code>null</code></td><td><code>null</code></td><td>"vazio de propósito" (<em>você</em> coloca)</td></tr>
+  </table>
+  </div>
+  <p>Para descobrir o tipo de um valor, use <code>typeof</code>: escreva <code>typeof</code>, um espaço e o valor, dentro de um <code>console.log</code>. Ele devolve o nome do tipo como texto.</p>
+
+  <h2>Os operadores</h2>
+  <h3>Aritméticos</h3>
+  <p><code>+</code> <code>-</code> <code>*</code> <code>/</code> e <code>%</code> (resto da divisão: <code>7 % 2</code> é 1, porque 7 dividido por 2 dá 3 e sobra 1). Atenção: só o <code>+</code> também sabe juntar textos.</p>
+  <h3>Comparação</h3>
+  <p><code>&gt;</code> <code>&lt;</code> <code>&gt;=</code> <code>&lt;=</code>, e as duas igualdades: <code>==</code> (converte os tipos antes de comparar) e <code>===</code> (compara valor <em>e</em> tipo, sem converter). O resultado é sempre um booleano.</p>
+  <h3>Lógicos</h3>
+  <p><code>&amp;&amp;</code> (E: as duas coisas precisam ser verdadeiras), <code>||</code> (OU: basta uma) e <code>!</code> (NÃO: inverte).</p>
+  <h3>Conversão de propósito</h3>
+  <p><code>Number(valor)</code> tenta transformar em número. <code>String(valor)</code> transforma em texto. Converter você mesmo é melhor que deixar o JavaScript adivinhar.</p>
+
+  <p><strong>Regra desta lição:</strong> igual à anterior. Escreva a previsão, depois teste no arquivo <code>licao-03.js</code> e mande a previsão e a saída real.</p>
+
+  <h2>Parte A: preveja, depois teste</h2>
+
+  <div class="card">
+    <span class="tag">typeof</span>
+    <p class="q">A1. Qual o tipo de cada um? Um deles tem uma resposta surpreendente.</p>
+<pre><code>42
+"42"
+true
+undefined
+null</code></pre>
+    <details><summary>Dica</summary>Faça um <code>console.log</code> com <code>typeof</code> para cada valor. Depois compare com a tabela de tipos.</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">coerção</span>
+    <p class="q">A2. O que sai em cada linha? Por que a primeira e a segunda são diferentes?</p>
+<pre><code>"5" + 3
+"5" - 3
+5 + 3</code></pre>
+    <details><summary>Dica</summary>O <code>-</code> só sabe fazer conta. O <code>+</code> sabe fazer conta e juntar texto. Quando um dos lados é texto, qual dos dois trabalhos o <code>+</code> escolhe?</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">igualdade</span>
+    <p class="q">A3. <code>true</code> ou <code>false</code>? Qual das duas você deveria usar no seu código?</p>
+<pre><code>5 == "5"
+5 === "5"</code></pre>
+  </div>
+
+  <div class="card">
+    <span class="tag">conversão</span>
+    <p class="q">A4. O que <code>Number</code> devolve em cada caso? Um deles é uma armadilha.</p>
+<pre><code>Number("12")
+Number("doze")
+Number("")</code></pre>
+  </div>
+
+  <div class="card">
+    <span class="tag">lógicos</span>
+    <p class="q">A5. Com <code>concluida = false</code> e <code>prioridade = 3</code>, qual o resultado de cada expressão?</p>
+<pre><code>!concluida
+prioridade === 3 &amp;&amp; concluida
+prioridade === 3 || concluida</code></pre>
+  </div>
+
+  <h2>Parte B: escreva você</h2>
+
+  <div class="card">
+    <span class="tag">converter</span>
+    <p class="q">B1. Um formulário mandou a quantidade de tarefas como texto. Comece com uma variável que vale <code>"3"</code> (com aspas). Some 2 tarefas novas e mostre <code>Total: 5</code> no console.</p>
+    <p>Primeiro faça a soma <strong>sem converter</strong> e veja o que aparece. Depois corrija.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">lógicos</span>
+    <p class="q">B2. Crie as variáveis de uma tarefa: concluída (booleano) e prioridade (número de 1 a 3). Mostre <code>"Urgente!"</code> só quando a tarefa <strong>não</strong> estiver concluída <strong>e</strong> a prioridade for 3. Teste com valores diferentes para ver as duas saídas.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">resto</span>
+    <p class="q">B3. Com um número numa variável, mostre <code>"par"</code> ou <code>"ímpar"</code>.</p>
+    <details><summary>Dica</summary>Qual é o resto da divisão de um número par por 2?</details>
+  </div>
+
+  <h2>Parte C: explique</h2>
+  <div class="card">
+    <p class="q">C1. Em até 3 frases: por que <code>"concluido: " + true</code> virou o texto <code>concluido: true</code>, e por que <code>undefined + 10</code> virou <code>NaN</code>?</p>
+  </div>
+
+  <h2>Parte D: desafios</h2>
+  <p>Mais difíceis que as Partes A e B. Juntam vários conceitos, como no projeto.</p>
+
+  <div class="card">
+    <span class="tag">armadilhas do ==</span>
+    <p class="q">D1. <code>true</code> ou <code>false</code>? Preveja todas antes de rodar e explique as que você errar.</p>
+<pre><code>"" == 0
+"0" == false
+null == undefined
+null === undefined
+NaN === NaN</code></pre>
+    <details><summary>Dica</summary>A última é a mais estranha. Depois de rodar, pesquise na MDN como se verifica se um valor é <code>NaN</code>.</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">valor padrão</span>
+    <p class="q">D2. O que cada linha mostra? Qual a diferença entre <code>||</code> e <code>??</code>?</p>
+<pre><code>"" || "Sem título"
+"Comprar pão" || "Sem título"
+0 || 10
+0 ?? 10
+null ?? 10</code></pre>
+    <details><summary>Dica</summary>O <code>||</code> não devolve só <code>true</code>/<code>false</code>: ele devolve um dos dois lados. Quais valores o JavaScript trata como "falsos" (<em>falsy</em>)?</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">validar entrada</span>
+    <p class="q">D3. Um formulário mandou a prioridade como texto, numa variável. Escreva um código que:</p>
+    <ul>
+      <li>converte para número;</li>
+      <li>se o resultado não for um número, ou estiver fora de 1 a 3, mostra <code>Prioridade inválida</code>;</li>
+      <li>senão, mostra <code>Prioridade: 2</code> (com o número convertido).</li>
+    </ul>
+    <p>Teste com <code>"2"</code>, <code>"abc"</code>, <code>"5"</code> e <code>""</code>. Algum deles passa quando não deveria? Corrija.</p>
+  </div>
+
+  <h2>Como entregar</h2>
+  <p>No chat: previsão e saída real de A1 a A5, e a resposta da C1. Os códigos da Parte B vão no <code>licao-03.js</code>. Eu confiro o arquivo e rodo.</p>
+
+  <p class="eyebrow" style="margin-top:32px">Fonte: MDN Web Docs, Guia de JavaScript, "Gramática e tipos" (tipos de dados e conversão) e "Expressões e operadores".</p>
+</main>
+</body>
+</html>

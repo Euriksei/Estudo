@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lição 02: let e const</title>
+<style>
+  :root {
+    --bg: #faf8f4; --fg: #1f1d1a; --muted: #6b665e; --card: #ffffff;
+    --border: #e4dfd6; --accent: #b4530a; --code-bg: #f1ede6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+      --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+    --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+  .eyebrow { color: var(--muted); font-size: 14px; margin: 0; }
+  h1 { font-size: 28px; margin: 4px 0 8px; }
+  h2 { font-size: 20px; margin: 36px 0 8px; }
+  .lead { color: var(--muted); margin-top: 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+  }
+  .q { font-weight: 600; }
+  pre {
+    background: var(--code-bg); border-radius: 8px; padding: 12px 14px;
+    overflow-x: auto; font-size: 14px; line-height: 1.5;
+  }
+  code { font-family: ui-monospace, Consolas, monospace; }
+  p code, li code, td code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  details { margin-top: 10px; color: var(--muted); }
+  summary { cursor: pointer; color: var(--accent); }
+  ol, ul { padding-left: 22px; }
+  .tag { display: inline-block; font-size: 12px; color: var(--accent);
+         border: 1px solid var(--accent); border-radius: 999px; padding: 0 8px; margin-bottom: 6px; }
+  .table-wrap { overflow-x: auto; }
+  table { border-collapse: collapse; width: 100%; font-size: 15px; }
+  th, td { border-bottom: 1px solid var(--border); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { color: var(--muted); font-weight: 600; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Etapa 1a · Base da linguagem · Lição 02 de 06</p>
+  <h1>Variáveis com let e const</h1>
+  <p class="lead">Por que existem três formas de criar uma variável, e qual usar no seu código.</p>
+
+  <h2>Por que isso importa</h2>
+  <p>Na lição 01 você viu dois problemas reais: um <code>const</code> que recebeu outro valor (o programa quebrou) e um <code>i</code> sem <code>let</code> que vazou para fora do loop (o programa <em>não</em> quebrou, o que é pior). As palavras <code>let</code>, <code>const</code> e <code>var</code> existem para você dizer ao JavaScript <strong>duas coisas</strong> sobre cada variável:</p>
+  <ol>
+    <li><strong>Ela pode receber outro valor depois?</strong> (reatribuição)</li>
+    <li><strong>Em que parte do código ela existe?</strong> (escopo)</li>
+  </ol>
+
+  <div class="table-wrap">
+  <table>
+    <tr><th></th><th>Pode receber outro valor?</th><th>Onde existe</th></tr>
+    <tr><td><code>const</code></td><td>Não</td><td>Só no bloco <code>{ }</code> onde foi criada</td></tr>
+    <tr><td><code>let</code></td><td>Sim</td><td>Só no bloco <code>{ }</code> onde foi criada</td></tr>
+    <tr><td><code>var</code></td><td>Sim</td><td>Na função inteira (ignora blocos como <code>if</code> e <code>for</code>)</td></tr>
+  </table>
+  </div>
+
+  <p><code>var</code> é a forma antiga (de antes de 2015). <code>let</code> e <code>const</code> foram criados para corrigir os problemas dela. Você vai ver <code>var</code> em código antigo e em tutoriais, por isso precisa reconhecer, mas no seu código a regra de hoje é:</p>
+  <p><strong>Use <code>const</code> por padrão. Troque para <code>let</code> só quando a variável precisar receber outro valor. Não use <code>var</code>.</strong></p>
+
+  <h2>O detalhe do const</h2>
+  <p>Pense na variável como uma <strong>etiqueta colada em um valor</strong>. O <code>const</code> proíbe <em>descolar a etiqueta e colar em outro valor</em> (fazer <code>nome = ...</code> de novo). Ele <strong>não</strong> diz nada sobre o valor em si. Para números e textos isso não faz diferença, porque eles não mudam por dentro. Mas uma lista (array) <em>pode</em> mudar por dentro, ganhando ou perdendo itens. A pergunta A3 testa exatamente isso.</p>
+  <p>Você ainda não estudou arrays (isso é a parte 1c). Por enquanto basta saber: <code>[1, 2]</code> é uma lista com dois números, e <code>lista.push(3)</code> coloca o 3 no fim da lista.</p>
+
+  <p><strong>Regra desta lição:</strong> para cada pergunta da Parte A, escreva a sua previsão <em>antes</em>. Depois crie um arquivo <code>licao-02.js</code> nesta pasta, digite o código você mesmo e rode com <code>node licao-02.js</code> para conferir. Me mande a previsão e o resultado real.</p>
+
+  <h2>Parte A: preveja, depois teste</h2>
+
+  <div class="card">
+    <span class="tag">let</span>
+    <p class="q">A1. O que acontece? Em qual linha?</p>
+<pre><code>let tarefas = 3;
+tarefas = 4;
+let tarefas = 5;
+console.log(tarefas);</code></pre>
+    <details><summary>Dica</summary>Compare a linha 2 e a linha 3. Uma <em>muda o valor</em>, a outra tenta <em>criar a variável de novo</em>.</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">const</span>
+    <p class="q">A2. Na lição 01, <code>let nota;</code> funcionou e a nota valia <code>undefined</code>. E com <code>const</code>?</p>
+<pre><code>const limite;
+console.log(limite);</code></pre>
+    <details><summary>Dica</summary>Se um <code>const</code> nunca pode receber outro valor, quando ele teria a chance de receber o primeiro?</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">const</span>
+    <p class="q">A3. Duas partes. O que aparece no primeiro <code>console.log</code>? E o que acontece na linha 4?</p>
+<pre><code>const lista = [1, 2];
+lista.push(3);
+console.log(lista);
+lista = [9];</code></pre>
+    <details><summary>Dica</summary>Releia "O detalhe do const". Qual das duas linhas descola a etiqueta, e qual só mexe no valor?</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">var</span>
+    <p class="q">A4. Os dois trechos usam a variável <em>antes</em> de criá-la. O resultado é igual? Rode cada um em um arquivo separado.</p>
+<pre><code>// trecho 1
+console.log(a);
+var a = 5;
+
+// trecho 2
+console.log(b);
+let b = 5;</code></pre>
+    <details><summary>Dica</summary>Um deles dá erro. O outro não dá erro, mas também não mostra 5. Qual dos dois comportamentos é mais seguro para quem programa?</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">var</span>
+    <p class="q">A5. Lembra do seu teste com o <code>i</code> fora do loop? Agora com <code>var</code>: o que aparece na última linha?</p>
+<pre><code>for (var i = 0; i &lt; 3; i++) {
+  console.log(i);
+}
+console.log(i);</code></pre>
+    <details><summary>Dica</summary>Olhe a coluna "Onde existe" da tabela. O <code>var</code> respeita o bloco do <code>for</code>?</details>
+  </div>
+
+  <h2>Parte B: escreva você</h2>
+
+  <div class="card">
+    <span class="tag">Escolher</span>
+    <p class="q">B1. Uma tarefa do seu gerenciador. Crie três variáveis:</p>
+    <ul>
+      <li>o título da tarefa (o texto não muda);</li>
+      <li>se ela está concluída (começa <code>false</code>, depois vira <code>true</code>);</li>
+      <li>a prioridade (um número de 1 a 3).</li>
+    </ul>
+    <p>Escolha <code>let</code> ou <code>const</code> para cada uma e <strong>justifique</strong>. Depois marque a tarefa como concluída e mostre o título e se ela está concluída no console.</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Corrigir</span>
+    <p class="q">B2. Este código tem problemas. Diga quais, sem rodar, e qual palavra (<code>let</code> ou <code>const</code>) cada variável deveria usar.</p>
+<pre><code>const contador = 0;
+contador = contador + 1;
+var nomeDoApp = "Tarefas";
+let versao = 1;
+console.log(nomeDoApp, versao, contador);</code></pre>
+    <details><summary>Dica</summary>Para cada variável, pergunte: ela recebe outro valor em algum momento? Se não, qual é a regra padrão?</details>
+  </div>
+
+  <h2>Parte C: explique sem consultar</h2>
+  <div class="card">
+    <p class="q">C1. Com suas palavras, em até 4 frases: qual a diferença entre <code>let</code>, <code>const</code> e <code>var</code>, e quando usar cada um?</p>
+    <p style="color:var(--muted);margin-bottom:0">Este é o critério de conclusão da parte 1a. Vamos repetir esta pergunta no fim da parte.</p>
+  </div>
+
+  <h2>Como entregar</h2>
+  <p>No chat: previsão e resultado real de A1 a A5; seu código da B1 no arquivo <code>licao-02.js</code>; respostas da B2 e da C1. Eu confiro o arquivo e corrijo cada item.</p>
+
+  <p class="eyebrow" style="margin-top:32px">Fonte: MDN Web Docs, Guia de JavaScript, "Gramática e tipos" → "Declarações" (let, const, var e hoisting).</p>
+</main>
+</body>
+</html>

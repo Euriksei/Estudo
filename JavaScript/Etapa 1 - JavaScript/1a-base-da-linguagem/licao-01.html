@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lição 01: Onde você está</title>
+<style>
+  :root {
+    --bg: #faf8f4; --fg: #1f1d1a; --muted: #6b665e; --card: #ffffff;
+    --border: #e4dfd6; --accent: #b4530a; --code-bg: #f1ede6;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+      --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #171614; --fg: #ece8e1; --muted: #a39d93; --card: #211f1c;
+    --border: #36322d; --accent: #f0a050; --code-bg: #2a2723;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--fg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 32px 16px 64px; }
+  .eyebrow { color: var(--muted); font-size: 14px; margin: 0; }
+  h1 { font-size: 28px; margin: 4px 0 8px; }
+  h2 { font-size: 20px; margin: 36px 0 8px; }
+  .lead { color: var(--muted); margin-top: 0; }
+  .card {
+    background: var(--card); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+  }
+  .q { font-weight: 600; }
+  pre {
+    background: var(--code-bg); border-radius: 8px; padding: 12px 14px;
+    overflow-x: auto; font-size: 14px; line-height: 1.5;
+  }
+  code { font-family: ui-monospace, Consolas, monospace; }
+  p code, li code { background: var(--code-bg); padding: 1px 5px; border-radius: 4px; }
+  details { margin-top: 10px; color: var(--muted); }
+  summary { cursor: pointer; color: var(--accent); }
+  ol, ul { padding-left: 22px; }
+  .tag { display: inline-block; font-size: 12px; color: var(--accent);
+         border: 1px solid var(--accent); border-radius: 999px; padding: 0 8px; margin-bottom: 6px; }
+</style>
+</head>
+<body>
+<main>
+  <p class="eyebrow">Etapa 1a · Base da linguagem · Lição 01 de 06</p>
+  <h1>Onde você está</h1>
+  <p class="lead">Variáveis, condições e repetição. Esta lição é um diagnóstico, não uma prova: ela mostra o que você já sabe, e assim as próximas lições pulam o que você domina e reforçam o que falta.</p>
+
+  <h2>Por que começar assim</h2>
+  <p>Quase todo programa faz três coisas: <strong>guarda valores</strong> (variáveis), <strong>escolhe um caminho</strong> (condições) e <strong>repete uma ação</strong> (loops). O gerenciador de tarefas também: guarda uma tarefa, decide se ela está concluída e percorre a lista de tarefas. Se você consegue <em>prever</em> o que um trecho faz antes de executá-lo, você entende o código, não está só decorando.</p>
+  <p><strong>Regra desta lição:</strong> responda sem executar nada e sem pesquisar. Errar aqui é útil, porque mostra onde focar. Depois de responder, você pode conferir no console do navegador (F12 → Console) ou com <code>node</code>.</p>
+
+  <h2>Parte A: preveja a saída</h2>
+
+  <div class="card">
+    <span class="tag">Variáveis</span>
+    <p class="q">A1. O que aparece no console? Explique linha por linha.</p>
+<pre><code>let pontos = 10;
+pontos = pontos + 5;
+console.log(pontos);</code></pre>
+    <details><summary>Dica</summary>O sinal <code>=</code> não significa "é igual". Ele significa "guarde o valor da direita na variável da esquerda". A direita é calculada primeiro.</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">Variáveis</span>
+    <p class="q">A2. E aqui, o que acontece? Por quê?</p>
+<pre><code>const nome = "Ana";
+nome = "Bia";
+console.log(nome);</code></pre>
+    <details><summary>Dica</summary>Pense no que a palavra <code>const</code> promete sobre a variável.</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">Condições</span>
+    <p class="q">A3. Qual mensagem aparece? E se <code>idade</code> fosse <code>18</code>?</p>
+<pre><code>let idade = 17;
+if (idade &gt;= 18) {
+  console.log("Pode entrar");
+} else {
+  console.log("Acesso negado");
+}</code></pre>
+    <details><summary>Dica</summary>Leia <code>&gt;=</code> em voz alta: "maior <em>ou</em> igual".</details>
+  </div>
+
+  <div class="card">
+    <span class="tag">Repetição</span>
+    <p class="q">A4. O que aparece no console, e quantas vezes o bloco roda?</p>
+<pre><code>for (let i = 0; i &lt; 3; i++) {
+  console.log(i);
+}</code></pre>
+    <details><summary>Dica</summary>O <code>for</code> tem três partes separadas por <code>;</code>: o começo, a condição para continuar e o que acontece ao fim de cada volta. Simule as voltas no papel.</details>
+  </div>
+
+  <h2>Parte B: escreva você</h2>
+  <p>Escreva o código sem consultar exemplos. Se travar, escreva em português o que o código deveria fazer, passo a passo. Isso também conta.</p>
+
+  <div class="card">
+    <span class="tag">Condições</span>
+    <p class="q">B1. Crie uma variável com uma nota. Se a nota for 7 ou mais, mostre "Aprovado"; se não, mostre "Reprovado".</p>
+  </div>
+
+  <div class="card">
+    <span class="tag">Repetição</span>
+    <p class="q">B2. Mostre no console os números de 1 a 5, um por linha, usando um loop.</p>
+  </div>
+
+  <h2>Parte C: autoavaliação</h2>
+  <div class="card">
+    <p>Dê uma nota de 0 a 3 para cada assunto (0 = nunca vi, 3 = explico para alguém):</p>
+    <ul>
+      <li>Variáveis (<code>let</code>, <code>const</code>, <code>var</code>)</li>
+      <li>Tipos (número, texto, booleano, <code>null</code>, <code>undefined</code>)</li>
+      <li>Condicionais (<code>if</code>, <code>else</code>, <code>switch</code>)</li>
+      <li>Loops (<code>for</code>, <code>while</code>, <code>for...of</code>)</li>
+      <li>Escopo</li>
+    </ul>
+  </div>
+
+  <h2>Como entregar</h2>
+  <p>Responda no chat: A1 a A4 com a sua explicação, B1 e B2 com o seu código, e as notas da Parte C. Eu corrijo cada item e explico o porquê de cada erro, sem entregar o código pronto.</p>
+
+  <p class="eyebrow" style="margin-top:32px">Fonte: MDN Web Docs, Guia de JavaScript, "Gramática e tipos" e "Controle de fluxo e tratamento de erros".</p>
+</main>
+</body>
+</html>
