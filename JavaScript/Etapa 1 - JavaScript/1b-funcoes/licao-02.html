@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 02: Declarar e chamar funções</title>
+<h1>Lição 02: Declarar e chamar funções</h1>
+<p>Parte de <a href="goal.md">Etapa 1b: Funções</a>. Responda no chat (<code>1: ...</code>, <code>g: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim. Ajuda: 3 (exemplo resolvido passo a passo), porque a lição 01 achou um ponto a reforçar.</p>
+
+<h2>Seu palpite</h2>
+<p>Da última vez: o que a função <code>dobro</code> sem <code>return</code> mostra? Você disse <b>b) só 8</b>. É a <b>c) 8, depois <code>undefined</code></b>.</p>
+<ul>
+<li>a) 8 e 8: acha que o <code>r</code> guarda o que o <code>console.log</code> mostrou.</li>
+<li>b) só 8: acha que o <code>console.log(r)</code> não mostra nada. Ele mostra o valor de <code>r</code>, mesmo quando é <code>undefined</code>.</li>
+<li>c) 8, depois <code>undefined</code>: o <code>console.log</code> de dentro mostra 8, e a função não devolve nada.</li>
+<li>d) <code>undefined</code>, depois 8: inverte a ordem das linhas.</li>
+</ul>
+
+<h2>A ideia</h2>
+<p>No seu <code>licao-05.js</code> da 1a, a mesma condição de validação aparece duas vezes. Se você mudar uma e esquecer a outra, o código quebra. Uma função resolve isso: você escreve o código uma vez, dá um nome a ele, e usa o nome quantas vezes quiser (MDN, "Funções", "Declarando uma função").</p>
+<p>A função recebe dados pelos <strong>parâmetros</strong>, entre parênteses. O <code>return</code> <strong>devolve</strong> um valor para quem chamou e encerra a função. Sem <code>return</code>, ela devolve <code>undefined</code>. Declarar a função não roda nada. Só a <strong>chamada</strong>, com parênteses, roda o código (MDN, "Funções", "Chamando funções"). Sem parênteses, o nome é a própria função, guardada como um valor.</p>
+
+<h2>Exemplo resolvido</h2>
+<pre class="code">function rotulo(nome, prioridade) {
+  return nome + " (P" + prioridade + ")"
+}
+const r = rotulo("Pagar conta", 3)
+console.log(r)</pre>
+<table>
+<tr><th>Passo</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td>a declaração cria a função <code>rotulo</code>; nada roda ainda</td></tr>
+<tr><td>2</td><td><code>rotulo("Pagar conta", 3)</code> chama a função: <code>nome</code> recebe <code>"Pagar conta"</code> e <code>prioridade</code> recebe 3</td></tr>
+<tr><td>3</td><td>o <code>return</code> devolve <code>"Pagar conta (P3)"</code>, e a função acaba</td></tr>
+<tr><td>4</td><td>o valor devolvido fica em <code>r</code></td></tr>
+<tr><td>5</td><td><code>console.log(r)</code> mostra <code>Pagar conta (P3)</code></td></tr>
+</table>
+
+<div class="ctl">
+<p style="margin-top:0">Mude o exemplo resolvido:</p>
+<label>dentro da função: <select id="corpo">
+<option value="ret">return nome + ...</option>
+<option value="log">console.log(nome + ...)</option>
+</select></label>
+<label>linha 4: <select id="cham">
+<option value="call">const r = rotulo("Pagar conta", 3)</option>
+<option value="ref">const r = rotulo</option>
+</select></label>
+<pre class="code" id="saida"></pre>
+</div>
+<script>
+(function () {
+  var corpo = document.getElementById("corpo"), cham = document.getElementById("cham"), out = document.getElementById("saida");
+  function rodar() {
+    var linhas = [];
+    if (cham.value === "ref") linhas.push("[Function: rotulo]");
+    else if (corpo.value === "ret") linhas.push("Pagar conta (P3)");
+    else linhas.push("Pagar conta (P3)", "undefined");
+    out.textContent = "// saída:\n" + linhas.join("\n");
+  }
+  corpo.onchange = rodar; cham.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Com as suas palavras: o que fica em <code>x</code>, o que fica em <code>y</code>, e por que são diferentes?</p>
+<pre class="code">function somar(a, b) {
+  return a + b
+}
+const x = somar
+const y = somar(2, 3)</pre>
+<pre class="answer">X so esta mencionando a função, Y esta chamando</pre>
+<blockquote class="feedback">Certo. Faltou dizer os valores: <code>x</code> guarda a própria função (<code>[Function: somar]</code>), e <code>y</code> guarda o 5 que o <code>return</code> devolveu.</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> No <code>licao-02.js</code> desta pasta, escreva uma função <code>prioridadeValida</code>. Ela recebe o texto que veio do <code>prompt</code> e devolve <code>true</code> se for um número inteiro de 1 a 3, e <code>false</code> se não for. A função não usa <code>console.log</code>. Fora dela, mostre o resultado destas 5 chamadas: <code>"2"</code>, <code>"abc"</code>, <code>"2.5"</code>, <code>""</code> e <code>"3"</code>. Mande a saída.</p>
+<pre class="answer">Feito</pre>
+<blockquote class="feedback">
+<p>Você escreveu no <code>licao-01.js</code>, não no <code>licao-02.js</code>. Rodei, com entrada simulada. As mensagens estão certas: <code>2</code> e <code>3</code> passam, e <code>abc</code>, <code>2.5</code> e vazio são recusados. Mas a função ainda não faz o que a questão pede:</p>
+<ul>
+<li><code>function prioridadeValida()</code> não tem parâmetro. A função lê o <code>prio</code> de fora, não o valor que você passa na chamada. Chamei <code>prioridadeValida("2")</code> sozinha, sem o <code>prio</code> de fora, e deu <code>ReferenceError: prio is not defined</code>.</li>
+<li>A função usa <code>console.log</code> e não tem <code>return</code>. Então <code>const r = prioridadeValida(...)</code> guarda <code>undefined</code>, como no palpite da lição 01.</li>
+</ul>
+<p>Pergunta: reescreva no <code>licao-02.js</code> para que <code>console.log(prioridadeValida("2.5"))</code> mostre <code>false</code> e <code>console.log(prioridadeValida("2"))</code> mostre <code>true</code>, num arquivo sem nenhum <code>prio</code> fora da função. Mande a saída das 5 chamadas.</p>
+</blockquote>
+</section>
+
+<section id="Q3">
+<p><b>Q3.</b> Um colega diz: "<code>classificar(3)</code> devolve <code>"Normal"</code>, porque o último <code>return</code> é o que vale". O que está errado nisso?</p>
+<pre class="code">function classificar(p) {
+  if (p === 3) {
+    return "Alta"
+  }
+  return "Normal"
+}</pre>
+<pre class="answer">se a função classificar for chamada ela vai retornar alta de tidi jeito</pre>
+<blockquote class="feedback">Certo para <code>classificar(3)</code>: devolve <code>"Alta"</code>. O motivo é que o <code>return</code> encerra a função, e o segundo <code>return</code> nem roda (MDN, <code>return</code>). Mas não "de todo jeito": <code>classificar(1)</code> não entra no <code>if</code> e devolve <code>"Normal"</code>.</blockquote>
+</section>
+
+<h2>Palpite para a próxima lição (não vale nota)</h2>
+<section id="G">
+<p>O que este código mostra? Ele não tem a palavra <code>return</code>.</p>
+<pre class="code">const triplo = (n) =&gt; n * 3
+console.log(triplo(4))</pre>
+<ul>
+<li>a) <code>undefined</code>, porque não tem <code>return</code></li>
+<li>b) <code>[Function: triplo]</code></li>
+<li>c) 12</li>
+<li>d) um erro de sintaxe</li>
+</ul>
+<pre class="answer">retorna 12</pre>
+</section>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Funções", seções "Declarando uma função" e "Chamando funções"; referência da instrução <code>return</code>.</p>

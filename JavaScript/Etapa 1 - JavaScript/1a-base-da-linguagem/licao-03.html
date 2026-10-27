@@ -195,6 +195,170 @@ null ?? 10</code></pre>
   <h2>Como entregar</h2>
   <p>No chat: previsão e saída real de A1 a A5, e a resposta da C1. Os códigos da Parte B vão no <code>licao-03.js</code>. Eu confiro o arquivo e rodo.</p>
 
+  <h2>Suas respostas e correção (27/10/2026)</h2>
+  <p>Refazer: <strong>A3, A5, B2, C1, D3</strong>. Responda no chat, no formato <code>A5 de novo: ...</code>.</p>
+
+  <div class="card">
+    <p class="q">A1</p>
+<pre class="answer">Number, string, boleeano, undefined, object</pre>
+    <blockquote class="feedback">Certo. A surpresa é <code>typeof null</code> ser <code>"object"</code>. É um erro antigo da linguagem que ficou assim (MDN, <code>typeof</code>).</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">A2</p>
+<pre class="answer">O resultado 53, 2 e 8</pre>
+    <blockquote class="feedback">Valores certos. O porquê entra na C1.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">A3</p>
+<pre class="answer">A primeira da true a segunda false</pre>
+    <blockquote class="feedback">
+      <p>Valores certos. Faltou dizer qual usar, e o seu código usa <code>prio == 3</code> e <code>prio%2==0</code>. Esse erro já estava anotado, então segue um exemplo com outro número:</p>
+<pre><code>const qtd = prompt("Quantas?")   // você esquece o Number(); digita 1
+qtd == 1    // true  - o == converte "1" em 1 e esconde o erro
+qtd === 1   // false - o === mostra que qtd ainda é texto</code></pre>
+      <p>Pergunta: depois desse exemplo, qual dos dois você usa no seu código, e por quê? (MDN, "Expressões e operadores", operadores de comparação)</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">A4</p>
+<pre class="answer">12, NaN, 0</pre>
+    <blockquote class="feedback">Certo. A armadilha é o <code>Number("") = 0</code>: um campo vazio vira um número válido.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">A5</p>
+<pre class="answer">True, true, false</pre>
+    <blockquote class="feedback">
+      <p>A primeira está certa. Nas outras duas você trocou o <code>&amp;&amp;</code> e o <code>||</code>. Siga cada passo:</p>
+<pre><code>prioridade === 3 &amp;&amp; concluida   →  true &amp;&amp; false  →  false
+prioridade === 3 || concluida   →  true || false  →  true</code></pre>
+      <p>Pergunta: com <code>concluida = true</code> e <code>prioridade = 1</code>, quanto vale <code>!concluida || prioridade === 1</code>? E quanto vale <code>!concluida &amp;&amp; prioridade === 1</code>? Preveja antes de rodar. (MDN, "Expressões e operadores", operadores lógicos)</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">B1</p>
+<pre class="answer">Não vou fazer pois ja sei, com aspas da 32, sem aspas da 5</pre>
+    <blockquote class="feedback">Aceito pela D3: lá você converteu com <code>Number(prompt(...))</code>. Note que "sem aspas" não é uma opção. O valor vem do formulário, e só a conversão resolve.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">B2 (no licao-03.js)</p>
+<pre class="answer">if (prio == 3){
+    estado = false
+    console.log("Urgente")
+}</pre>
+    <blockquote class="feedback">
+      <p>Saída com a entrada <code>3</code>: <code>Urgente</code>. Mas o seu <code>estado</code> começa <code>true</code>, ou seja, a tarefa está concluída, e o "Urgente" aparece mesmo assim. O <code>estado = false</code> <em>muda</em> o estado. Ele não <em>verifica</em> o estado.</p>
+      <p>Pergunta: reescreva o B2 para que, com a tarefa concluída e prioridade 3, nada apareça.</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">B3 (no licao-03.js)</p>
+<pre class="answer">if ( prio%2==0){
+    console.log("Par")
+} else {
+    console.log("impar")
+}</pre>
+    <blockquote class="feedback">Certo: <code>2</code> mostra <code>Par</code> e <code>3</code> mostra <code>impar</code>. Mas as entradas <code>abc</code> e <code>7</code> mostram <code>Favor digitar um numero</code> e depois <code>impar</code>. O B3 roda mesmo com uma entrada inválida. Vamos voltar a isso na lição 04.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">C1</p>
+<pre class="answer">Acontece porque true é boleano, ele "concatena" tipo isso, ja o ndefined + 10 virar NaN acontece porque undefined não é nem numero, nem testo, o js não tem oque fazer com ele.</pre>
+    <blockquote class="feedback">
+      <p>Incompleta. Você escreveu "o js não tem oque fazer com ele". Na verdade, o JavaScript faz algo com ele: converte o <code>undefined</code> sozinho. Rode estas duas linhas:</p>
+<pre><code>console.log(Number(undefined))
+console.log(true + 10)</code></pre>
+      <p>Pergunta: com essas duas saídas, explique em 2 frases quando o <code>+</code> junta texto e quando ele faz conta. (MDN, "Gramática e tipos", conversão de tipos)</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">D1</p>
+<pre class="answer">True, true, true, false, false, null é indefinido né ?</pre>
+    <blockquote class="feedback">Tudo certo. Mas não: <code>null</code> não é <code>undefined</code>. Veja a tabela de tipos: são dois tipos diferentes, e o <code>===</code> mostra isso. O <code>==</code> tem uma regra especial que trata os dois como iguais (MDN, igualdade <code>==</code>). Para verificar <code>NaN</code>, use <code>Number.isNaN</code>, como você fez na D3.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">D2</p>
+<pre class="answer">Sem titulo, Comprar pao, 10, 0, 10. O || retorna o valor da direita se o da esquerda puder ser convertido em false, o ?? so retorna o valor da direita se o da esquerda for null</pre>
+    <blockquote class="feedback">Certo. Um detalhe: o <code>??</code> também devolve o valor da direita quando o da esquerda é <code>undefined</code> (MDN, <code>??</code>).</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">D3 (no licao-03.js)</p>
+    <blockquote class="feedback">
+      <p>Saídas: <code>2</code> mostra <code>Prioridade definida como: 2</code>, <code>abc</code> mostra <code>Favor digitar um numero</code>, e <code>5</code> e <code>""</code> mostram <code>Defina um valor válido</code>. Mas <code>2.5</code> passa e mostra <code>Prioridade definida como: 2.5</code>.</p>
+      <p>Pergunta: de que tipo de número uma prioridade precisa ser? Procure no objeto <code>Number</code>, na MDN, um método que verifica isso.</p>
+    </blockquote>
+  </div>
+
+  <h2>Refazer, rodada 2 (27/10/2026)</h2>
+  <p>Ainda falta: <strong>A3 e C1</strong>.</p>
+
+  <div class="card">
+    <p class="q">A3 de novo</p>
+<pre class="answer">Deve usar o == porque so quero validar o valor,</pre>
+    <blockquote class="feedback">
+      <p>Segunda vez com o mesmo erro. No seu código, o <code>==</code> não causa problema porque o <code>Number()</code> já converteu. O perigo aparece quando a conversão falta. Faça este teste no seu arquivo: tire o <code>Number(</code> da linha do <code>prompt</code> e digite <code>3</code>.</p>
+<pre><code>prio == 3    // true  - "Urgente" aparece, e o erro fica escondido
+prio === 3   // false - nada aparece, e você vê que falta converter</code></pre>
+      <p>A MDN diz que a igualdade estrita (<code>===</code>) é quase sempre a comparação certa ("Comparações de igualdade e semelhança"). A regra fica assim: use <code>===</code>, e converta você mesmo com <code>Number()</code> quando os tipos forem diferentes.</p>
+      <p>Pergunta: troque todos os <code>==</code> do <code>licao-03.js</code> por <code>===</code>, rode com <code>3</code> e mande a saída.</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">A5 de novo</p>
+<pre class="answer">true e false</pre>
+    <blockquote class="feedback">Certo: <code>false || true</code> dá <code>true</code>, e <code>false &amp;&amp; true</code> dá <code>false</code>.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">B2 e B3 de novo (no licao-03.js)</p>
+<pre class="answer">if (prio == 3 &amp;&amp; estado==false){
+console.log("Urgente")
+}</pre>
+    <blockquote class="feedback">Certo. Com <code>estado = false</code> e a entrada <code>3</code>, aparece <code>Urgente</code>. Numa cópia com <code>estado = true</code>, ele não aparece. O B3 agora só roda com uma prioridade válida.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">C1 de novo</p>
+<pre class="answer">Ele junta texto quando o item da direita é texto, e faz conta quando o item da esquerda é possui algum valor numerico e o da direita tbm</pre>
+    <blockquote class="feedback">
+      <p>Você escreveu "quando o item da direita é texto". Compare com a sua própria A2:</p>
+<pre><code>"5" + 3     // "53" - o texto está na esquerda, e juntou mesmo assim
+true + 10   // 11   - true não é número, e fez conta mesmo assim</code></pre>
+      <p>Pergunta: rode <code>console.log(Number(undefined))</code> e reescreva a regra do <code>+</code> para que ela explique as duas linhas acima e o <code>undefined + 10</code>. (MDN, "Gramática e tipos", conversão de tipos)</p>
+    </blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">D3 de novo (no licao-03.js)</p>
+    <blockquote class="feedback">Certo: <code>2.5</code> e <code>abc</code> agora mostram <code>Favor digitar um numero inteiro valido</code>, e <code>""</code> e <code>5</code> mostram <code>Defina um valor válido</code>. Um detalhe: <code>Number.isInteger(NaN)</code> já dá <code>false</code>, então o <code>Number.isNaN</code> ficou sobrando.</blockquote>
+  </div>
+
+  <h2>Refazer, rodada 3 (27/10/2026)</h2>
+
+  <div class="card">
+    <p class="q">A3 de novo</p>
+<pre class="answer">o resultado da A3 tirando number o colocando === parou no primeiro console.log     console.log("Favor digitar um numero inteiro valido")</pre>
+    <blockquote class="feedback">Certo. Sem o <code>Number()</code>, a <code>prio</code> é o texto <code>"3"</code>, e o <code>Number.isInteger("3")</code> dá <code>false</code>. Agora você usa <code>===</code> no <code>if</code> do "Urgente". Falta trocar o <code>prio%2==0</code> e colocar o <code>Number(</code> de volta.</blockquote>
+  </div>
+
+  <div class="card">
+    <p class="q">C1 de novo</p>
+<pre class="answer">O true + 10 soma 11 porque true é igual a 1</pre>
+    <blockquote class="feedback">Certo para o <code>true</code>. Fica a regra completa, para revisar depois: se <strong>um dos lados</strong> do <code>+</code> é texto, ele junta texto. Se nenhum lado é texto, ele converte os dois para número: <code>true</code> vira 1, e <code>undefined</code> vira <code>NaN</code>. Por isso <code>undefined + 10</code> dá <code>NaN</code> (MDN, "Gramática e tipos", conversão de tipos).</blockquote>
+  </div>
+
+  <p class="pass">Você agora sabe prever o que o <code>+</code>, o <code>===</code>, o <code>&amp;&amp;</code>, o <code>||</code> e o <code>??</code> fazem com tipos misturados, e sabe validar um número que vem de um formulário.</p>
+
   <p class="eyebrow" style="margin-top:32px">Fonte: MDN Web Docs, Guia de JavaScript, "Gramática e tipos" (tipos de dados e conversão) e "Expressões e operadores".</p>
 </main>
 </body>

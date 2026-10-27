@@ -6,13 +6,13 @@ Detalhes de cada parte estão nos arquivos `goal.md` de cada pasta.
 
 - [x] 01 Onde você está
 - [x] 02 Variáveis com `let` e `const`
-- [ ] 03 Tipos e operadores
-- [ ] 04 Condicionais: `if`, `else` e `switch`
-- [ ] 05 Loops: `for`, `while` e `for...of`
-- [ ] 06 Escopo
+- [x] 03 Tipos e operadores
+- [x] 04 Condicionais: `if`, `else` e `switch`
+- [x] 05 Loops: `for`, `while` e `for...of`
+- [x] 06 Escopo
 
 Critério da parte:
-- [ ] Explico a diferença entre `let`, `const` e `var` sem consultar
+- [x] Explico a diferença entre `let`, `const` e `var` sem consultar
 
 ## 1b: Funções
 

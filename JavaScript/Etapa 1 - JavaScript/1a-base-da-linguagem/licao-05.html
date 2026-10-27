@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 05: Loops</title>
+<h1>Lição 05: Loops</h1>
+<p>Parte de <a href="goal.md">Etapa 1a: Base da linguagem</a>. Responda no chat (<code>1: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim.</p>
+
+<h2>Seu palpite</h2>
+<p>Da última vez: o que o <code>while</code> com <code>i &lt; 3</code> mostra? Você disse <b>3</b>, e está certo: é a <b>d) 3</b>.</p>
+<ul>
+<li>a) 0: acha que o loop nunca roda.</li>
+<li>b) 2: para uma volta antes, como se o <code>i</code> não chegasse a 3.</li>
+<li>c) 4: conta uma volta a mais, o mesmo erro da lição 01.</li>
+<li>d) 3: o loop para quando <code>i &lt; 3</code> fica <code>false</code>, e isso acontece com <code>i = 3</code>.</li>
+</ul>
+
+<h2>A ideia</h2>
+<p>O menu da lição 04 pergunta uma vez só. Se a pessoa digita <code>abc</code>, o programa mostra o erro e acaba. Você quer perguntar <strong>de novo</strong>, até a resposta ser válida. Um loop faz isso: ele repete um bloco enquanto uma condição é verdadeira.</p>
+<p>O <code>while</code> testa a condição <strong>antes</strong> de cada volta. Quando ela dá <code>false</code>, o loop acaba. O <code>for</code> junta três partes numa linha: início, condição e passo. O <code>for...of</code> passa por cada item de uma lista. Se nada dentro do loop muda a condição, ele nunca para (MDN, "Laços e iterações").</p>
+
+<h2>Exemplo resolvido</h2>
+<pre class="code">let i = 0
+while (i &lt; 3) {
+  i = i + 1
+}
+console.log(i)</pre>
+<table>
+<tr><th>Volta</th><th><code>i</code> antes</th><th><code>i &lt; 3</code></th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td>0</td><td><code>true</code></td><td><code>i</code> vira 1</td></tr>
+<tr><td>2</td><td>1</td><td><code>true</code></td><td><code>i</code> vira 2</td></tr>
+<tr><td>3</td><td>2</td><td><code>true</code></td><td><code>i</code> vira 3</td></tr>
+<tr><td>-</td><td>3</td><td><code>false</code></td><td>sai do loop e mostra 3</td></tr>
+</table>
+<p>As mesmas três voltas com <code>for</code>, e um <code>for...of</code> numa lista:</p>
+<pre class="code">for (let i = 0; i &lt; 3; i++) {   // início; condição; passo
+  console.log("volta " + i)        // volta 0, volta 1, volta 2
+}
+
+const tarefas = ["Comprar pão", "Estudar JS"]
+for (const t of tarefas) {
+  console.log(t)                   // Comprar pão, Estudar JS
+}</pre>
+
+<div class="ctl">
+<p style="margin-top:0">Mude o exemplo resolvido:</p>
+<label>condição: <code>i</code> <select id="op"><option value="lt">&lt;</option><option value="le">&lt;=</option></select></label>
+<label>limite: <select id="lim"><option>0</option><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+<p id="res" style="margin-bottom:0"></p>
+</div>
+<script>
+(function () {
+  var op = document.getElementById("op"), lim = document.getElementById("lim"), res = document.getElementById("res");
+  function rodar() {
+    var n = Number(lim.value), i = 0, voltas = 0;
+    while (op.value === "lt" ? i < n : i <= n) { i = i + 1; voltas = voltas + 1; }
+    res.textContent = "Voltas: " + voltas + ". O console.log mostra " + i + ".";
+  }
+  op.onchange = rodar; lim.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Um colega diz: "<code>for (let i = 1; i &lt;= 5; i++)</code> roda 4 vezes, porque 5 - 1 = 4". O que está errado nessa conta? Responda com as suas palavras.</p>
+<pre class="answer">esta errado porque a primeira ver que rodar vai imprimir o valor de i assim que o programa começa, ou seja, 1</pre>
+<blockquote class="feedback">Certo na ideia: a primeira volta já usa <code>i = 1</code>, e ela conta. Faltou o número final. As voltas são 1, 2, 3, 4 e 5, então são <b>5</b>. A conta 5 - 1 = 4 conta os espaços entre os números, não os números. Com <code>&lt;=</code>, some 1: 5 - 1 + 1 = 5 (MDN, "Laços e iterações", <code>for</code>).</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> No <code>licao-05.js</code>, use um <code>while</code> para perguntar a prioridade com <code>prompt</code> <strong>até</strong> a pessoa digitar um número inteiro de 1 a 3. Cada resposta errada mostra <code>Prioridade inválida, tente de novo</code>. No fim, mostre <code>Prioridade: 2</code> (com o número digitado). Teste digitando, em sequência, <code>abc</code>, <code>5</code>, <code>2.5</code> e <code>2</code>, e mande a saída completa.</p>
+<pre class="answer">Feito</pre>
+<blockquote class="feedback">
+<p>Certo. Rodei o <code>licao-05.js</code> com as entradas <code>abc</code>, <code>5</code>, <code>2.5</code> e <code>2</code>. As três primeiras mostram <code>Prioridade inválida, tente de novo</code>, e a última mostra <code>Prioridade: 2</code>. Também testei a entrada vazia, <code>0</code> e <code>3</code>, e deu certo.</p>
+<p>Você usou <code>do...while</code>, que roda o bloco antes do primeiro teste. É a escolha certa aqui: a pergunta precisa ser feita pelo menos uma vez (MDN, "Laços e iterações", <code>do...while</code>). Um detalhe: a mesma condição aparece duas vezes. Se você mudar uma e esquecer a outra, o código quebra.</p>
+</blockquote>
+</section>
+
+<section id="Q3">
+<p><b>Q3.</b> Quais números este código mostra, em ordem? Preveja antes de rodar.</p>
+<pre class="code">for (let i = 10; i &gt; 0; i = i - 3) {
+  console.log(i)
+}</pre>
+<pre class="answer">10, 7 ,4 ,1</pre>
+<blockquote class="feedback">Certo. Depois do 1, o <code>i</code> vira -2, e <code>-2 &gt; 0</code> dá <code>false</code>.</blockquote>
+</section>
+
+<p class="pass">Você agora sabe repetir um bloco com <code>while</code>, <code>do...while</code>, <code>for</code> e <code>for...of</code>, contar quantas voltas um loop dá, e pedir uma entrada até ela ser válida.</p>
+
+<h2>Palpite para a próxima lição (não vale nota)</h2>
+<section id="G">
+<p>O que este código mostra?</p>
+<pre class="code">let total = 0
+if (true) {
+  let total = 5
+}
+console.log(total)</pre>
+<ul>
+<li>a) 5</li>
+<li>b) 0</li>
+<li>c) um erro, porque <code>total</code> já existe</li>
+<li>d) <code>undefined</code></li>
+</ul>
+<pre class="answer">Letra C</pre>
+</section>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Laços e iterações", seções <code>for</code>, <code>while</code> e <code>for...of</code>.</p>

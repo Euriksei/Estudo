@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+#saida { margin: .6rem 0 0; }
+</style>
+<title>Lição 04: Condicionais</title>
+<h1>Lição 04: Condicionais</h1>
+<p>Parte de <a href="goal.md">Etapa 1a: Base da linguagem</a>. Responda no chat (<code>1: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim. Ajuda: subiu para 3 (exemplo resolvido passo a passo), porque o <code>==</code> apareceu de novo.</p>
+
+<h2>A ideia</h2>
+<p>O seu código da lição 03 tem um problema. Cada <code>if</code> separado é testado, mesmo depois que outro já deu certo. Muitas vezes você quer que <strong>só um</strong> caminho rode. O <code>else if</code> resolve isso. O JavaScript testa as condições de cima para baixo. A <strong>primeira</strong> condição verdadeira roda, e as outras são puladas. O <code>else</code> só roda se nenhuma condição deu certo (MDN, "Controle de fluxo", <code>if...else</code>).</p>
+<p>O <code>switch</code> faz o mesmo para uma lista de valores. Ele compara com <code>===</code>, então o tipo conta. Depois que um <code>case</code> combina, ele roda até achar um <code>break</code>. Sem o <code>break</code>, ele continua nos <code>case</code> de baixo (MDN, "Controle de fluxo", <code>switch</code>).</p>
+
+<h2>Exemplo resolvido</h2>
+<pre class="code">const prio = 3
+if (prio === 1) {
+  console.log("Baixa")
+} else if (prio === 2) {
+  console.log("Média")
+} else if (prio === 3) {
+  console.log("Alta")
+} else {
+  console.log("Inválida")
+}</pre>
+<table>
+<tr><th>Passo</th><th>Teste</th><th>Resultado</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td><code>prio === 1</code></td><td><code>false</code></td><td>pula "Baixa"</td></tr>
+<tr><td>2</td><td><code>prio === 2</code></td><td><code>false</code></td><td>pula "Média"</td></tr>
+<tr><td>3</td><td><code>prio === 3</code></td><td><code>true</code></td><td>mostra "Alta"</td></tr>
+<tr><td>4</td><td><code>else</code></td><td>-</td><td>não é testado: um caminho já rodou</td></tr>
+</table>
+<p>O mesmo exemplo com <code>switch</code>:</p>
+<pre class="code">switch (prio) {
+  case 1: console.log("Baixa"); break
+  case 2: console.log("Média"); break
+  case 3: console.log("Alta"); break
+  default: console.log("Inválida")
+}</pre>
+
+<div class="ctl">
+<p style="margin-top:0">Teste o <code>switch</code> acima:</p>
+<label>prio = <select id="valor">
+<option value="n1">1</option>
+<option value="n2">2</option>
+<option value="n3" selected>3</option>
+<option value="t3">"3" (texto)</option>
+<option value="n9">9</option>
+</select></label>
+<label><input type="checkbox" id="comBreak" checked> com <code>break</code></label>
+<pre class="code" id="saida"></pre>
+</div>
+<script>
+(function () {
+  var casos = [[1, "Baixa"], [2, "Média"], [3, "Alta"]];
+  var sel = document.getElementById("valor"), chk = document.getElementById("comBreak"), out = document.getElementById("saida");
+  function rodar() {
+    var v = sel.value[0] === "t" ? sel.value.slice(1) : Number(sel.value.slice(1));
+    var inicio = 3;
+    for (var i = 0; i < casos.length; i++) { if (casos[i][0] === v) { inicio = i; break; } }
+    var linhas = casos.map(function (c) { return c[1]; }).concat(["Inválida"]);
+    out.textContent = chk.checked ? linhas[inicio] : linhas.slice(inicio).join("\n");
+  }
+  sel.onchange = rodar; chk.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Este código mostra o prazo de uma tarefa. <code>dias</code> é quantos dias faltam até o prazo.</p>
+<pre class="code">const dias = -2
+if (dias &lt; 7) {
+  console.log("Esta semana")
+} else if (dias &lt; 1) {
+  console.log("Hoje")
+} else if (dias &lt; 0) {
+  console.log("Atrasada")
+}</pre>
+<p>Um colega diz: "com <code>dias = -2</code>, aparece Atrasada". O que está errado nessa afirmação? Responda com as suas palavras.</p>
+<p class="hint">Faça como na tabela do exemplo resolvido. Primeiro passo: com <code>dias = -2</code>, o teste <code>dias &lt; 7</code> dá <code>true</code> ou <code>false</code>? Depois olhe o passo 4 da tabela: o que acontece com os <code>else if</code> que vêm depois de um teste <code>true</code>? Se quiser, cole o código num arquivo e rode.</p>
+<pre class="answer">O erro está na ordem das condições. Como dias = -2, a primeira condição (dias &lt; 7) já é verdadeira, então o código exibe "Esta semana" e não verifica as próximas condições. Para funcionar corretamente, a condição de atraso deve ser verificada antes das demais.</pre>
+<blockquote class="feedback">Certo. "a primeira condição (dias &lt; 7) já é verdadeira" é o ponto central: só o primeiro caminho verdadeiro roda. Por isso a condição mais estreita (<code>dias &lt; 0</code>) vem primeiro, e a mais larga (<code>dias &lt; 7</code>) vem por último (MDN, "Controle de fluxo", <code>if...else</code>).</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> No <code>licao-04.js</code>, faça um menu com <code>prompt</code>: <code>1</code> mostra <code>Criar tarefa</code>, <code>2</code> mostra <code>Concluir tarefa</code>, <code>3</code> mostra <code>Apagar tarefa</code>, e qualquer outra entrada mostra <code>Opção inválida</code>. Use <code>switch</code> com <code>case 1:</code>, <code>case 2:</code> e <code>case 3:</code> (números, sem aspas). Teste com <code>1</code>, <code>3</code>, <code>9</code> e <code>abc</code>, e mande as saídas.</p>
+<pre class="answer">Lição 4 funfando</pre>
+<blockquote class="feedback">
+<p>Certo. Rodei o <code>licao-04.js</code>: <code>1</code>, <code>2</code> e <code>3</code> mostram a ação, e <code>9</code>, <code>abc</code> e a entrada vazia mostram <code>Opção Invalida</code>. O <code>Number()</code> antes do <code>switch</code> resolve o <code>case 1:</code> sem aspas.</p>
+<p>Um furo: com <code>2.5</code>, nada aparece. Olhe o <code>!Number.isInteger</code> no seu <code>if</code>. O que falta depois de <code>isInteger</code> para ele testar o <code>op</code>? (<code>console.log(!Number.isInteger)</code> mostra <code>false</code>.) E pense: o <code>default</code> do <code>switch</code> podia fazer o trabalho desse <code>if</code>.</p>
+</blockquote>
+</section>
+
+<section id="Q3">
+<p><b>Q3.</b> O que este código mostra?</p>
+<pre class="code">const plano = "pro"
+switch (plano) {
+  case "gratis": console.log("5 tarefas")
+  case "pro": console.log("50 tarefas")
+  case "time": console.log("Sem limite")
+  default: console.log("Plano desconhecido")
+}</pre>
+<ul>
+<li>a) só "50 tarefas"</li>
+<li>b) "5 tarefas", "50 tarefas", "Sem limite" e "Plano desconhecido"</li>
+<li>c) "50 tarefas", "Sem limite" e "Plano desconhecido"</li>
+<li>d) "50 tarefas" e "Plano desconhecido"</li>
+</ul>
+<pre class="answer">B mas porque ?</pre>
+<blockquote class="feedback">
+<p>A sua resposta b começa no <code>"gratis"</code>. Mas o <code>switch</code> não começa no topo. Ele começa no <code>case</code> que combina:</p>
+<pre class="code">plano === "gratis"   →  false  →  pula esta linha
+plano === "pro"      →  true   →  começa a rodar aqui</pre>
+<p>Teste no controle da página: desligue o <code>break</code> e escolha <code>prio = 2</code>. Veja em que linha a saída começa.</p>
+<p>Pergunta: sem <code>break</code>, quais <code>console.log</code> rodam a partir do <code>case "pro"</code>? (MDN, "Controle de fluxo", <code>switch</code>)</p>
+</blockquote>
+<pre class="answer">(rodou o código) 50 tarefas
+Sem limite
+Plano desconhecido</pre>
+<blockquote class="feedback">Certo, é a c. O <code>switch</code> pula o <code>"gratis"</code> e começa no <code>"pro"</code>. Sem <code>break</code>, ele roda tudo o que vem embaixo, até o <code>default</code>.</blockquote>
+</section>
+
+<p class="pass">Você agora sabe escolher um único caminho com <code>if / else if / else</code>, ordenar as condições da mais estreita para a mais larga, e usar <code>switch</code> com <code>break</code> e <code>default</code>.</p>
+
+<h2>Palpite para a próxima lição (não vale nota)</h2>
+<section id="G">
+<p>O que este código mostra?</p>
+<pre class="code">let i = 0
+while (i &lt; 3) {
+  i = i + 1
+}
+console.log(i)</pre>
+<ul>
+<li>a) 0</li>
+<li>b) 2</li>
+<li>c) 4</li>
+<li>d) 3</li>
+</ul>
+<pre class="answer">3</pre>
+</section>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Controle de fluxo e tratamento de erros", seções <code>if...else</code> e <code>switch</code>.</p>

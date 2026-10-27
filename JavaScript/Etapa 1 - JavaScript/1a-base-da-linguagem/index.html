@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Etapa 1a: Base da linguagem</title>
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --green: light-dark(#1f7a4d, #6fd3a0); --amber: light-dark(#c2780a, #f0b24a); }
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font: 16px/1.5 system-ui, sans-serif; }
+header { padding: .7rem 1rem .5rem; border-bottom: 1px solid var(--line); background: var(--card); }
+h1 { font-size: 1.05rem; margin: 0 0 .5rem; }
+nav { display: flex; gap: .4rem; overflow-x: auto; padding-bottom: .3rem; }
+nav button { flex: none; font: inherit; font-size: .9rem; padding: .35rem .75rem; border-radius: 999px; border: 1px solid var(--line); background: var(--soft); color: var(--fg); cursor: pointer; }
+nav button[aria-current="true"] { border-color: var(--blue); color: var(--blue); font-weight: 600; }
+nav button:disabled { opacity: .45; cursor: default; }
+nav .st { font-size: .75rem; margin-left: .35rem; }
+.passed { color: var(--green); } .open { color: var(--amber); }
+iframe { flex: 1; width: 100%; border: 0; background: var(--bg); }
+</style>
+<header>
+<h1>Etapa 1a: Base da linguagem</h1>
+<nav id="nav"></nav>
+</header>
+<iframe id="pg" title="Lição"></iframe>
+<script>
+var licoes = [{"nome": "01 Onde você está", "arquivo": "licao-01.html", "status": "passou"}, {"nome": "02 let e const", "arquivo": "licao-02.html", "status": "passou"}, {"nome": "03 Tipos e operadores", "arquivo": "licao-03.html", "status": "passou"}, {"nome": "04 Condicionais", "arquivo": "licao-04.html", "status": "passou"}, {"nome": "05 Loops", "arquivo": "licao-05.html", "status": "passou"}, {"nome": "06 Escopo", "arquivo": "licao-06.html", "status": "passou"}, {"nome": "Revisão 29/10", "arquivo": null, "status": "futura"}];
+var nav = document.getElementById("nav"), pg = document.getElementById("pg"), btns = [];
+function abrir(i) {
+  pg.src = licoes[i].arquivo;
+  btns.forEach(function (b, j) { b.setAttribute("aria-current", j === i ? "true" : "false"); });
+  try { localStorage.setItem(location.pathname, i); } catch (e) {}
+}
+licoes.forEach(function (l, i) {
+  var b = document.createElement("button");
+  b.textContent = l.nome;
+  var st = document.createElement("span");
+  st.className = "st " + (l.status === "passou" ? "passed" : l.status === "aberta" ? "open" : "");
+  st.textContent = l.status === "passou" ? "✓" : l.status === "aberta" ? "●" : "em breve";
+  b.appendChild(st);
+  if (!l.arquivo) b.disabled = true; else b.onclick = function () { abrir(i); };
+  nav.appendChild(b); btns.push(b);
+});
+var ini = licoes.findIndex(function (l) { return l.status === "aberta"; });
+if (ini < 0) {
+  try { ini = Number(localStorage.getItem(location.pathname)); } catch (e) {}
+  if (!(ini >= 0 && licoes[ini] && licoes[ini].arquivo)) ini = 0;
+}
+abrir(ini);
+</script>

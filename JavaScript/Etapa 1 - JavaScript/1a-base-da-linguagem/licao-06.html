@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 06: Escopo</title>
+<h1>Lição 06: Escopo</h1>
+<p>Parte de <a href="goal.md">Etapa 1a: Base da linguagem</a>. Responda no chat (<code>1: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim.</p>
+
+<h2>Seu palpite</h2>
+<p>Da última vez: o que o código com dois <code>total</code> mostra? Você disse <b>c) um erro</b>. É a <b>b) 0</b>.</p>
+<ul>
+<li>a) 5: acha que o <code>let</code> de dentro troca o <code>total</code> de fora.</li>
+<li>b) 0: o <code>let</code> de dentro cria outro <code>total</code>, que só existe dentro das chaves.</li>
+<li>c) um erro: acha que dois <code>let</code> com o mesmo nome nunca podem existir. Eles podem, se estão em blocos diferentes.</li>
+<li>d) <code>undefined</code>: acha que o <code>total</code> de fora se perde.</li>
+</ul>
+
+<h2>A ideia</h2>
+<p>No seu <code>licao-05.js</code>, você criou o <code>let op;</code> fora do <code>do { }</code>. Isso não foi por acaso. Um <code>let</code> ou <code>const</code> só existe dentro do <strong>bloco</strong> onde foi criado, ou seja, entre as chaves <code>{ }</code> mais próximas. Isso é o <strong>escopo</strong> da variável. Fora do bloco, o nome não existe, e usar o nome dá <code>ReferenceError</code>. Um bloco interno pode ver as variáveis de fora. Um <code>let</code> com o mesmo nome dentro do bloco cria uma variável <strong>nova</strong>, que esconde a de fora até a chave fechar. O <code>var</code> não respeita o bloco, e é mais um motivo para não usar <code>var</code> (MDN, "Gramática e tipos", escopo de variável).</p>
+
+<h2>Exemplo resolvido</h2>
+<pre class="code">let total = 0
+if (true) {
+  let total = 5
+}
+console.log(total)</pre>
+<table>
+<tr><th>Linha</th><th>O que aconteceu</th><th><code>total</code> de fora</th></tr>
+<tr><td><code>let total = 0</code></td><td>cria o <code>total</code> de fora</td><td>0</td></tr>
+<tr><td><code>let total = 5</code></td><td>cria um <code>total</code> novo, só dentro das chaves</td><td>0</td></tr>
+<tr><td><code>}</code></td><td>o <code>total</code> de dentro deixa de existir</td><td>0</td></tr>
+<tr><td><code>console.log(total)</code></td><td>só existe o de fora</td><td>mostra 0</td></tr>
+</table>
+
+<div class="ctl">
+<p style="margin-top:0">Troque uma linha do exemplo:</p>
+<label><select id="var">
+<option value="a">fora: let total = 0 / dentro: let total = 5</option>
+<option value="b">fora: let total = 0 / dentro: total = 5</option>
+<option value="c">fora: (nada) / dentro: let total = 5</option>
+</select></label>
+<pre class="code" id="saida"></pre>
+</div>
+<script>
+(function () {
+  var sel = document.getElementById("var"), out = document.getElementById("saida");
+  var prog = {
+    a: ["let total = 0\nif (true) {\n  let total = 5\n}\nconsole.log(total)", "0"],
+    b: ["let total = 0\nif (true) {\n  total = 5\n}\nconsole.log(total)", "5"],
+    c: ["if (true) {\n  let total = 5\n}\nconsole.log(total)", "ReferenceError: total is not defined"]
+  };
+  function rodar() { var p = prog[sel.value]; out.textContent = p[0] + "\n\n// saída: " + p[1]; }
+  sel.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Explique com as suas palavras por que o <code>let op;</code> do seu <code>licao-05.js</code> precisa ficar fora do <code>do { }</code>. Se quiser, mova o <code>let</code> para dentro e rode, para ver o que acontece.</p>
+<pre class="answer">Fica fora do do porque é uma variavel que será usada no codigo todo, não somente dentro da repetição</pre>
+<blockquote class="feedback">Certo. Para ser exato: o <code>while (...)</code> e o <code>console.log</code> do fim estão <strong>fora</strong> das chaves do <code>do { }</code>. Um <code>let op</code> criado dentro deixa de existir na chave que fecha, e eles dariam <code>ReferenceError</code> (MDN, "Gramática e tipos", escopo de variável).</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> O que este código mostra?</p>
+<pre class="code">let contador = 0
+for (let i = 0; i &lt; 3; i++) {
+  let dobro = i * 2
+  contador = contador + dobro
+}
+console.log(contador)
+console.log(i)</pre>
+<ul>
+<li>a) 6, depois 3</li>
+<li>b) 6, depois <code>ReferenceError: i is not defined</code></li>
+<li>c) 0, depois <code>ReferenceError: i is not defined</code></li>
+<li>d) 6, depois 2</li>
+</ul>
+<pre class="answer">B</pre>
+<blockquote class="feedback">Certo. O <code>contador</code> é de fora, então a soma 0 + 2 + 4 = 6 fica nele. O <code>i</code> foi criado com <code>let</code> no <code>for</code>, então só existe dentro do loop.</blockquote>
+</section>
+
+<section id="Q3">
+<p><b>Q3.</b> Este código deveria avisar que a lista tem uma tarefa urgente:</p>
+<pre class="code">const tarefas = ["Comprar pão", "Pagar conta", "Estudar JS"]
+for (const t of tarefas) {
+  let urgente = t === "Pagar conta"
+}
+if (urgente) {
+  console.log("Tem tarefa urgente")
+}</pre>
+<p>Copie o código para o <code>licao-06.js</code> e rode. Depois corrija para mostrar <code>Tem tarefa urgente</code> quando <strong>alguma</strong> tarefa da lista for <code>"Pagar conta"</code>, em qualquer posição. Mande a saída.</p>
+<pre class="answer">Feito</pre>
+<blockquote class="feedback">
+<p>Certo. Rodei o <code>licao-06.js</code>: mostra <code>Tem tarefa urgente</code>. Numa cópia, testei <code>"Pagar conta"</code> no início, no meio e no fim da lista, e funcionou em todos. Sem <code>"Pagar conta"</code> na lista, nada aparece.</p>
+<p>Você evitou uma armadilha: <code>urgente = t === "Pagar conta"</code> em cada volta apagaria o <code>true</code> nas voltas seguintes. O seu <code>if</code> só muda o valor para <code>true</code>. Um detalhe: o <code>let urgente</code> começa como <code>undefined</code>. Funciona, porque <code>undefined</code> é falsy, mas <code>let urgente = false</code> deixa a intenção clara.</p>
+</blockquote>
+</section>
+
+<p class="pass">Você agora sabe onde uma variável existe: um <code>let</code> ou <code>const</code> vive só no bloco onde foi criado, e uma variável usada depois do bloco precisa ser criada fora dele.</p>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Gramática e tipos", seções "Declarações" e "Escopo de variável".</p>
