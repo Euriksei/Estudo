@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 04: Funções como valores (callbacks)</title>
+<h1>Lição 04: Funções como valores (callbacks)</h1>
+<p>Parte de <a href="goal.md">Etapa 1b: Funções</a>. Responda no chat (<code>1: ...</code>, <code>2: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim. Ajuda: 3 (exemplo resolvido passo a passo).</p>
+
+<h2>Seu palpite</h2>
+<p>Da última vez, o palpite ficou sem resposta. A pergunta era: o que <code>repetir(3, (n) =&gt; console.log("volta " + n))</code> mostra? É a <b>b) <code>volta 1</code>, <code>volta 2</code> e <code>volta 3</code></b>.</p>
+<ul>
+<li>a) nada: a arrow é criada, mas o <code>repetir</code> chama ela com <code>acao(i)</code>, uma vez por volta.</li>
+<li>b) <code>volta 1</code>, <code>volta 2</code> e <code>volta 3</code>: o parâmetro <code>acao</code> recebe a arrow, e o loop chama ela com 1, 2 e 3.</li>
+<li>c) erro: <code>acao</code> é uma função, porque recebeu uma arrow.</li>
+<li>d) <code>[Function: acao]</code>: isso apareceria com <code>console.log(acao)</code>, sem chamar.</li>
+</ul>
+
+<h2>A ideia</h2>
+<p>O <code>repetir</code> sabe fazer o loop, mas não sabe o que fazer em cada volta. Se cada ação precisasse de um loop novo, você escreveria o mesmo <code>for</code> várias vezes. A solução é passar a ação como parâmetro.</p>
+<p>Na lição 02, você viu que <code>somar</code>, sem parênteses, é a própria função, guardada como valor. Um valor pode ir para outra função como argumento. Uma função passada assim se chama <strong>callback</strong>: a função de fora recebe a callback e chama ela por dentro, com os argumentos certos (MDN, glossário, "Callback function"). Quem chama a callback é a função de fora, não você.</p>
+
+<h2>Exemplo resolvido</h2>
+<pre class="code">function repetir(vezes, acao) {
+  for (let i = 1; i &lt;= vezes; i++) {
+    acao(i)
+  }
+}
+const mostrar = (n) =&gt; console.log("volta " + n)
+repetir(3, mostrar)</pre>
+<img src="img/04-callback.svg" width="400" height="400" alt="repetir(3, mostrar): a função mostrar vai sem parênteses para o parâmetro acao. Dentro do loop, acao(1), acao(2) e acao(3) chamam mostrar e mostram volta 1, volta 2 e volta 3.">
+<table>
+<tr><th>Passo</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td><code>repetir(3, mostrar)</code>: <code>vezes</code> recebe 3, e <code>acao</code> recebe a função <code>mostrar</code>, sem rodar ela</td></tr>
+<tr><td>2</td><td>na primeira volta, <code>acao(1)</code> tem parênteses: agora <code>mostrar</code> roda com <code>n</code> = 1 e mostra <code>volta 1</code></td></tr>
+<tr><td>3</td><td>as voltas 2 e 3 fazem o mesmo com 2 e 3</td></tr>
+<tr><td>4</td><td>para fazer outra coisa em cada volta, você troca só a callback. O <code>repetir</code> continua igual</td></tr>
+</table>
+
+<div class="ctl">
+<p style="margin-top:0">Troque a callback e o número de voltas:</p>
+<label>callback: <select id="cb">
+<option value="mostrar">mostrar = (n) =&gt; console.log("volta " + n)</option>
+<option value="dobrar">dobrar = (n) =&gt; console.log(n * 2)</option>
+</select></label>
+<label>vezes: <select id="vz"><option>1</option><option>2</option><option selected>3</option><option>4</option><option>5</option></select></label>
+<pre class="code" id="saida"></pre>
+</div>
+<script>
+(function () {
+  var cb = document.getElementById("cb"), vz = document.getElementById("vz"), out = document.getElementById("saida");
+  function rodar() {
+    var linhas = [], v = Number(vz.value);
+    for (var i = 1; i <= v; i++) linhas.push(cb.value === "mostrar" ? "volta " + i : String(i * 2));
+    out.textContent = "repetir(" + v + ", " + cb.value + ")\n// saída:\n" + linhas.join("\n");
+  }
+  cb.onchange = rodar; vz.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Um colega troca a última linha do exemplo por <code>repetir(3, mostrar())</code> e diz: "é a mesma coisa, só pus os parênteses para a função rodar". Com as suas palavras: o que vai para o parâmetro <code>acao</code> nesse caso, e o que acontece quando o loop tenta fazer <code>acao(1)</code>?</p>
+<pre class="answer">se eu chamar ação() seria como se eu chamasse a função sem parametro</pre>
+<blockquote class="feedback">
+<p>Certo em parte: com <code>repetir(3, mostrar())</code>, o <code>mostrar</code> roda na hora, sem parâmetro, antes do <code>repetir</code> começar. Ele mostra <code>volta undefined</code>. Faltou dizer o que vai para o <code>acao</code>, e o que o loop faz com isso.</p>
+<p>Pergunta: o <code>mostrar</code> não tem <code>return</code>. Que valor ele devolve? Esse é o valor que o <code>acao</code> recebe. Teste no Node com o exemplo da lição e diga o que acontece na primeira volta do loop (MDN, glossário, "Callback function").</p>
+</blockquote>
+<pre class="answer">Como mostrar() não retorna uma função, o valor passado para acao será undefined. Então, quando o loop tentar executar acao(1), ocorrerá um erro, pois estamos tentando chamar undefined como se fosse uma função.</pre>
+<blockquote class="feedback">Certo. O <code>acao</code> recebe <code>undefined</code>, e <code>acao(1)</code> dá <code>TypeError: acao is not a function</code>. Antes disso, aparece <code>volta undefined</code>, porque o <code>mostrar()</code> rodou uma vez na chamada (MDN, glossário, "Callback function").</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> Crie o arquivo <code>licao-04.js</code> nesta pasta, sem <code>prompt</code>. Nele:</p>
+<ul>
+<li>copie a sua <code>prioridadeValida</code> da lição 03;</li>
+<li>crie a <code>nomeValido</code>, uma arrow sem chaves que devolve <code>true</code> se o texto não é vazio;</li>
+<li>crie a <code>checar(texto, validar)</code>. Ela chama a callback <code>validar</code> com o <code>texto</code>, e devolve <code>"ok: "</code> ou <code>"invalido: "</code> seguido do texto. Ela não usa <code>console.log</code> e não chama a <code>prioridadeValida</code> nem a <code>nomeValido</code> pelo nome.</li>
+</ul>
+<p>Mostre o resultado destas 4 chamadas: <code>checar("2", prioridadeValida)</code>, <code>checar("9", prioridadeValida)</code>, <code>checar("Estudar", nomeValido)</code> e <code>checar("", nomeValido)</code>. Rode e mande a saída.</p>
+<pre class="answer">Feito</pre>
+<blockquote class="feedback">
+<p>Certo. O arquivo foi salvo às 13:47. A saída foi <code>ok: 2</code>, <code>inválido: 9</code>, <code>ok: Estudar</code> e <code>inválido: </code>. A <code>checar</code> chama a callback com <code>validar(texto)</code> e não sabe qual validador recebeu. É isso que a deixa servir para os dois casos.</p>
+<p>Dois detalhes, sem refazer:</p>
+<ul>
+<li><code>const nomeValido = (nome) =&gt; valido = nome!=""</code> cria uma variável <code>valido</code> sem <code>let</code> nem <code>const</code>. O JavaScript cria essa variável fora de tudo, sem avisar. Com <code>"use strict"</code> no topo do arquivo, a mesma linha dá <code>ReferenceError: valido is not defined</code>. A arrow sem chaves já devolve o valor, então o <code>valido =</code> pode sair.</li>
+<li>Use <code>!==</code> em vez de <code>!=</code>, como a regra do <code>===</code> da 1a.</li>
+</ul>
+</blockquote>
+</section>
+
+<p class="pass">Agora você consegue passar uma função como callback e escrever uma função que chama a callback que recebeu.</p>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, glossário, "Callback function"; Guia de JavaScript, "Funções", seção "Function expressions".</p>

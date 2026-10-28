@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 03: Arrow functions</title>
+<h1>Lição 03: Arrow functions</h1>
+<p>Parte de <a href="goal.md">Etapa 1b: Funções</a>. Responda no chat (<code>1: ...</code>, <code>g: ...</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim. Ajuda: 3 (exemplo resolvido passo a passo).</p>
+
+<h2>Seu palpite</h2>
+<p>Da última vez: o que <code>console.log(triplo(4))</code> mostra, com <code>const triplo = (n) =&gt; n * 3</code>? Você disse <b>12</b>. É a <b>c) 12</b>.</p>
+<ul>
+<li>a) <code>undefined</code>: acha que sem a palavra <code>return</code> nada volta. Na forma sem chaves, o valor volta sozinho.</li>
+<li>b) <code>[Function: triplo]</code>: confunde a função com a chamada. <code>triplo(4)</code> tem parênteses, então roda.</li>
+<li>c) 12: <code>n</code> recebe 4, e a expressão <code>n * 3</code> é devolvida.</li>
+<li>d) erro de sintaxe: <code>=&gt;</code> é uma forma válida de escrever uma função.</li>
+</ul>
+
+<h2>A ideia</h2>
+<p>Uma função como <code>triplo</code> faz um cálculo só, mas ocupa três linhas. Na lição 04, você vai passar funções pequenas como esta para outras funções. Por isso vale ter uma forma curta. A <strong>arrow function</strong> é essa forma (MDN, "Arrow functions").</p>
+<p>Ela tem dois tipos de corpo (MDN, "Arrow functions", "Function body"):</p>
+<ul>
+<li><strong>Sem chaves</strong>: o corpo é uma única expressão, e o valor dela volta sozinho, sem <code>return</code>.</li>
+<li><strong>Com chaves</strong>: o corpo funciona como o de uma função comum. Ele aceita várias linhas, e o valor só volta com <code>return</code>. Sem <code>return</code>, a função devolve <code>undefined</code>.</li>
+</ul>
+<p>A forma sem chaves só serve quando a função devolve uma expressão direto. Se o corpo tem instruções, como <code>const</code> ou <code>if</code>, as chaves são obrigatórias.</p>
+
+<h2>Exemplo resolvido</h2>
+<img src="img/03-tres-formas.svg" width="400" height="390" alt="A mesma função triplo em três formas: função comum, arrow com chaves e return, e arrow sem chaves. Nas três, triplo(4) devolve 12.">
+<table>
+<tr><th>Passo</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td>tirar a palavra <code>function</code>, guardar a função numa <code>const</code>, e pôr <code>=&gt;</code> entre os parâmetros e as chaves</td></tr>
+<tr><td>2</td><td>com chaves, o <code>return</code> continua: ele ainda é quem devolve o valor</td></tr>
+<tr><td>3</td><td>o corpo era só <code>return n * 3</code>, uma expressão. Então dá para tirar as chaves e o <code>return</code> juntos</td></tr>
+<tr><td>4</td><td>nas três formas, <code>triplo(4)</code> devolve 12</td></tr>
+</table>
+
+<div class="ctl">
+<p style="margin-top:0">Mude o corpo da <code>triplo</code>:</p>
+<label>corpo: <select id="corpo">
+<option value="exp">(n) =&gt; n * 3</option>
+<option value="ret">(n) =&gt; { return n * 3 }</option>
+<option value="sem">(n) =&gt; { n * 3 }</option>
+</select></label>
+<pre class="code" id="saida"></pre>
+</div>
+<script>
+(function () {
+  var corpo = document.getElementById("corpo"), out = document.getElementById("saida");
+  var res = { exp: "12", ret: "12", sem: "undefined" };
+  function rodar() {
+    out.textContent = "const triplo = " + corpo.options[corpo.selectedIndex].text + "\nconsole.log(triplo(4))\n// saída: " + res[corpo.value];
+  }
+  corpo.onchange = rodar; rodar();
+})();
+</script>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> Um colega diz: "a <code>prioridadeValida</code> não pode virar uma arrow sem chaves, porque ela tem um <code>if</code>". Ele está certo só em parte. Com as suas palavras: o que a forma sem chaves exige, e como a validação poderia caber nela? Não precisa escrever o código.</p>
+<pre class="answer">para funcionar sem chaves ele precisa de uma operação que retorno true ou false, igual eu fiz em licao-03</pre>
+<blockquote class="feedback">Certo na parte principal: a validação cabe sem chaves quando as condições viram uma expressão só, juntas com <code>&amp;&amp;</code>, como você fez. Só um ajuste: a expressão não precisa dar <code>true</code> ou <code>false</code>. Qualquer expressão serve. <code>(n) =&gt; n * 3</code> devolve 12 (MDN, "Arrow functions", "Function body").</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> Crie o arquivo <code>licao-03.js</code> nesta pasta, sem <code>prompt</code>. Nele:</p>
+<ul>
+<li>reescreva a <code>prioridadeValida</code> como arrow function <strong>com chaves</strong>;</li>
+<li>crie a <code>formatarTarefa</code>, uma arrow <strong>sem chaves e sem <code>return</code></strong>. Ela recebe o nome e a prioridade, e devolve um texto assim: <code>[P2] Estudar</code>;</li>
+<li>use as duas juntas para a tarefa <code>"Estudar"</code>. Com a prioridade <code>"2"</code>, mostre <code>[P2] Estudar</code>. Com a prioridade <code>"9"</code>, mostre <code>Prioridade invalida</code>.</li>
+</ul>
+<p>Rode e mande a saída.</p>
+<pre class="answer">pronto, pode testar o licao-03. To ficando bom nisso</pre>
+<blockquote class="feedback">
+<p>O arquivo foi salvo às 11:03. A saída foi <code>Tarefa: Estudar</code> e <code>Prioridade invalida</code>. Testei os casos da questão:</p>
+<table>
+<tr><th>Chamada</th><th>Devolveu</th><th>Esperado</th></tr>
+<tr><td><code>prioridadeValida("2")</code></td><td><code>"Prioridade invalida"</code></td><td><code>true</code></td></tr>
+<tr><td><code>prioridadeValida("9")</code></td><td><code>"Prioridade invalida"</code></td><td><code>false</code></td></tr>
+<tr><td><code>formataTarefa("P2", "Estudar")</code></td><td><code>undefined</code> (e mostra 2 linhas)</td><td><code>"[P2] Estudar"</code></td></tr>
+</table>
+<p>As duas funções trocaram de trabalho. A <code>prioridadeValida</code> passou a montar texto, e a <code>formataTarefa</code> passou a mostrar na tela. Cada uma deve fazer uma coisa só e devolver o resultado:</p>
+<ul>
+<li><code>prioridadeValida</code>: recebe o texto, converte com <code>Number()</code> e devolve <code>true</code> ou <code>false</code>. Sem ele, <code>"2"</code> é recusado, como na lição 02. O <code>resultado</code> de fora também pode sair.</li>
+<li><code>formataTarefa</code>: devolve o texto <code>[P2] Estudar</code>. O <code>console.log</code> fica fora dela.</li>
+<li>Quem chama usa um <code>if</code> com as duas, para os casos <code>"2"</code> e <code>"9"</code>.</li>
+</ul>
+<p>Exemplo resolvido, em outro caso. Uma função testa, outra formata, e o <code>if</code> de fora decide:</p>
+<pre class="code">const ehPar = (texto) =&gt; Number(texto) % 2 === 0
+const marcar = (n) =&gt; "&lt;" + n + "&gt;"
+
+if (ehPar("4")) {
+  console.log(marcar("4"))
+} else {
+  console.log("Impar")
+}</pre>
+<table>
+<tr><th>Passo</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td><code>ehPar("4")</code> converte o texto e devolve <code>true</code>. Ela não mostra nada</td></tr>
+<tr><td>2</td><td>o <code>if</code> de fora recebe o <code>true</code> e entra no primeiro bloco</td></tr>
+<tr><td>3</td><td><code>marcar("4")</code> devolve <code>"&lt;4&gt;"</code>. Ela também não mostra nada</td></tr>
+<tr><td>4</td><td>só o <code>console.log</code> de fora mostra: <code>&lt;4&gt;</code>. Com <code>"7"</code>, mostra <code>Impar</code></td></tr>
+</table>
+<p>Refaça com essa forma e mande a saída dos dois casos (<code>2 again: ...</code>).</p>
+</blockquote>
+<p class="hint">A <code>formataTarefa</code> das 11:15 já está certa: ela devolve o texto. Falta só usar a <code>prioridadeValida</code> como pergunta do <code>if</code>, e não como valor para a <code>formataTarefa</code>. O caminho de cada caso:<br>
+<code>"2"</code> → <code>prioridadeValida</code> devolve <code>true</code> → o <code>if</code> entra → <code>formataTarefa("2", "Estudar")</code> devolve <code>"[P2] Estudar"</code> → o <code>console.log</code> mostra<br>
+<code>"9"</code> → <code>prioridadeValida</code> devolve <code>false</code> → o <code>else</code> mostra <code>Prioridade invalida</code></p>
+<pre class="answer">pronto, pode testar o licao-03 de novo</pre>
+<blockquote class="feedback">
+<p>Quase lá. O arquivo foi salvo às 11:44. Agora a forma está certa: a <code>formataTarefa</code> devolve <code>[P2] Estudar</code>, o <code>if</code> de fora decide, e não tem mais variável de fora. A saída foi <code>[P2] Estudar</code>, mas a chamada usou o número <code>2</code>. A questão usa os textos <code>"2"</code> e <code>"9"</code>, como vêm do <code>prompt</code>:</p>
+<table>
+<tr><th>Entrada</th><th>Mostrou</th></tr>
+<tr><td><code>2</code> (número)</td><td><code>[P2] Estudar</code></td></tr>
+<tr><td><code>"2"</code> (texto)</td><td><code>Valor de prioridade invalido</code></td></tr>
+<tr><td><code>"9"</code> (texto)</td><td><code>Valor de prioridade invalido</code></td></tr>
+</table>
+<p>Falta uma coisa só: converter o texto com <code>Number()</code> dentro da <code>prioridadeValida</code>, antes do teste. Depois rode com <code>"2"</code> e com <code>"9"</code> e mande as duas saídas.</p>
+</blockquote>
+<pre class="answer">agora sim</pre>
+<blockquote class="feedback">
+<p>O arquivo foi salvo às 11:45. O <code>Number()</code> entrou na linha 3, mas o teste roda na linha 2, antes dele. A linha 9 ainda chama com o número <code>2</code>, então a saída <code>[P2] Estudar</code> não testa o texto. Com <code>"2"</code>, a função devolveu <code>false</code>.</p>
+<p>Pergunta: na linha 2, com <code>prioridade = "2"</code>, quanto dá <code>Number.isInteger(prioridade)</code>? E quando o <code>Number()</code> precisa rodar para isso mudar?</p>
+</blockquote>
+<pre class="answer">pronto, pode testar de novo</pre>
+<blockquote class="feedback">
+<p>Certo. O arquivo foi salvo às 11:47. Agora o <code>Number()</code> roda na primeira linha da função, e todas as validações testam o número. Rodei os casos: <code>"2"</code> mostrou <code>[P2] Estudar</code>, e <code>"9"</code>, <code>"abc"</code>, <code>"2.5"</code> e <code>""</code> foram recusados.</p>
+<p>Na sua dúvida, você disse: "indifere se o valor informado entra como number ou texto, ja que ele vai ser validado antes". Importa, sim. <code>Number.isInteger("2")</code> dá <code>false</code>, porque o <code>Number.isInteger</code> não converte o texto. Já o <code>&lt;</code> e o <code>&gt;</code> convertem. Por isso a conversão vem antes de todos os testes.</p>
+<p>Um detalhe, sem refazer: a função devolve o número ou <code>false</code>, e a questão pedia <code>true</code> ou <code>false</code>. Aqui funciona, porque as prioridades 1, 2 e 3 contam como verdadeiras no <code>if</code>.</p>
+</blockquote>
+</section>
+
+<p class="pass">Agora você consegue escrever arrow functions com e sem chaves, e separar uma função que testa de uma função que formata, ligadas por um <code>if</code> de fora.</p>
+
+<h2>Palpite para a próxima lição (não vale nota)</h2>
+<section id="G">
+<p>O que este código mostra?</p>
+<pre class="code">function repetir(vezes, acao) {
+  for (let i = 1; i &lt;= vezes; i++) {
+    acao(i)
+  }
+}
+repetir(3, (n) =&gt; console.log("volta " + n))</pre>
+<ul>
+<li>a) nada, porque a arrow só é criada e nunca é chamada</li>
+<li>b) <code>volta 1</code>, <code>volta 2</code> e <code>volta 3</code></li>
+<li>c) um erro, porque <code>acao</code> não é uma função</li>
+<li>d) <code>[Function: acao]</code> três vezes</li>
+</ul>
+</section>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, referência "Arrow function expressions", seções "Description" e "Function body".</p>

@@ -24,7 +24,7 @@ iframe { flex: 1; width: 100%; border: 0; background: var(--bg); }
 </header>
 <iframe id="pg" title="Lição"></iframe>
 <script>
-var licoes = [{"nome": "01 Onde você está", "arquivo": "licao-01.html", "status": "passou"}, {"nome": "02 Declarar e chamar", "arquivo": "licao-02.html", "status": "aberta"}, {"nome": "03 Arrow functions", "arquivo": null, "status": "futura"}, {"nome": "04 Callbacks", "arquivo": null, "status": "futura"}, {"nome": "05 Exercício misto", "arquivo": null, "status": "futura"}];
+var licoes = [{"nome": "01 Onde você está", "arquivo": "licao-01.html", "status": "passou"}, {"nome": "02 Declarar e chamar", "arquivo": "licao-02.html", "status": "passou"}, {"nome": "03 Arrow functions", "arquivo": "licao-03.html", "status": "passou"}, {"nome": "04 Callbacks", "arquivo": "licao-04.html", "status": "passou"}, {"nome": "05 Exercício misto", "arquivo": "licao-05.html", "status": "passou"}];
 var nav = document.getElementById("nav"), pg = document.getElementById("pg"), btns = [];
 function abrir(i) {
   pg.src = licoes[i].arquivo;

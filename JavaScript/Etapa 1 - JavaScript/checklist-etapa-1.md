@@ -16,14 +16,14 @@ Critério da parte:
 
 ## 1b: Funções
 
-- [ ] 01 Onde você está
-- [ ] 02 Declarar e chamar funções, com parâmetros e retorno
-- [ ] 03 Arrow functions
-- [ ] 04 Funções como valores (callbacks)
-- [ ] 05 Exercício misto
+- [x] 01 Onde você está
+- [x] 02 Declarar e chamar funções, com parâmetros e retorno
+- [x] 03 Arrow functions
+- [x] 04 Funções como valores (callbacks)
+- [x] 05 Exercício misto
 
 Critério da parte:
-- [ ] Escrevo uma função com parâmetros e retorno, e a passo como callback, sem consultar
+- [x] Escrevo uma função com parâmetros e retorno, e a passo como callback, sem consultar
 
 ## 1c: Arrays e objetos
 

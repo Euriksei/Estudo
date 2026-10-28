@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- tutor lesson page -->
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f7f7f5, #121212); --card: light-dark(#fff, #1c1c1e); --fg: light-dark(#1a1a1a, #ececec); --muted: light-dark(#6b6b6b, #9c9c9c); --line: light-dark(#e4e4e0, #2e2e31); --soft: light-dark(#f1f3f8, #24262d); --blue: light-dark(#3557d4, #7d97ff); --purple: light-dark(#7c4dcc, #b99aff); --amber: light-dark(#c2780a, #f0b24a); --amber-bg: light-dark(#fdf6e8, #2c2416); --green: light-dark(#1f7a4d, #6fd3a0); --green-bg: light-dark(#eff8f3, #1a2a22); }
+body { max-width: 42rem; margin: 2.5rem auto; padding: 0 1rem; font: 17px/1.6 system-ui, sans-serif; color: var(--fg); background: var(--bg); }
+h1 { font-size: 1.75rem; line-height: 1.2; margin: 0 0 .4rem; }
+h1 + p { font-size: .85rem; color: var(--muted); margin: 0 0 2rem; }
+h2, pre.answer::before, blockquote.feedback::before, p.hint::before { display: block; font: 600 .75rem system-ui, sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 2.5rem 0 .75rem; }
+a { color: var(--blue); }
+code { font: .88em ui-monospace, Menlo, monospace; background: var(--soft); padding: .05em .3em; border-radius: 4px; }
+img, table { max-width: 100%; margin: 1rem 0; border: 1px solid var(--line); border-radius: 10px; }
+img { display: block; }
+table { border-collapse: separate; border-spacing: 0; background: var(--card); }
+th { font-size: .8rem; color: var(--muted); }
+th, td { padding: .45rem .9rem; text-align: left; border-top: 1px solid var(--line); }
+tr:first-child > * { border-top: 0; }
+section, p.pass { margin: .75rem 0; padding: 1rem 1.15rem; background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--blue); border-radius: 10px; }
+section[id^="R"] { border-left-color: var(--purple); }
+section#G { border-left-color: var(--amber); }
+section > :first-child { margin-top: 0; }
+section > :last-child, blockquote.feedback > :last-child { margin-bottom: 0; }
+section:not(:has(pre.answer))::after { content: "Waiting for your answer"; display: block; margin-top: .6rem; font-size: .75rem; color: var(--muted); }
+pre.answer, blockquote.feedback, p.hint { margin: .75rem 0 0; padding: .55rem .8rem; border-radius: 8px; background: var(--soft); }
+pre.answer { white-space: pre-wrap; font: .9rem/1.5 ui-monospace, Menlo, monospace; }
+pre.answer::before { content: "Your answer"; }
+blockquote.feedback { background: var(--green-bg); }
+blockquote.feedback::before { content: "Feedback"; color: var(--green); }
+blockquote.feedback > p:first-of-type { margin-top: 0; }
+p.hint { background: var(--amber-bg); }
+p.hint::before { content: "Hint"; color: var(--amber); }
+pre.answer:has(+ blockquote.feedback + pre.answer), blockquote.feedback:has(+ pre.answer) { opacity: .55; }
+p.pass { border-color: var(--green); border-left-width: 1px; color: var(--green); font-weight: 600; }
+button, input, select { font: inherit; }
+button { padding: .3rem .8rem; color: var(--fg); background: var(--soft); border: 1px solid var(--line); border-radius: 6px; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.css" integrity="sha384-3rdsX6e5mueWyoweR9NIVmtEsUkokpBT/0ALqKKIBMr9j4qhHkaIkAcGgsE6uVlp" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/katex.min.js" integrity="sha384-QFFtAGzvvj+bfgCGxXJlNZZR1nXEZgvG8tDLCCY1F19xl20WlfTYgguB4VcNdxYk" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.19.0/dist/contrib/auto-render.min.js" integrity="sha384-bjyGPfbij8/NDKJhSGZNP/khQVgtHUE5exjm4Ydllo42FwIgYsdLO2lXGmRBf5Mz" crossorigin="anonymous" onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]})"></script>
+<style>
+pre.code { background: var(--soft); padding: .7rem .9rem; border-radius: 8px; font: .9rem/1.5 ui-monospace, Menlo, monospace; overflow-x: auto; }
+.ctl { padding: .8rem 1rem; background: var(--card); border: 1px dashed var(--line); border-radius: 10px; }
+.ctl label { margin-right: 1rem; }
+</style>
+<title>Lição 05: Exercício misto</title>
+<h1>Lição 05: Exercício misto</h1>
+<p>Parte de <a href="goal.md">Etapa 1b: Funções</a>. Responda no chat (<code>1: b</code>, <code>2: 21</code>), coloque <code>sure</code> ou <code>guess</code> depois de cada resposta, e diga <code>done</code> no fim. Responda de cabeça primeiro; depois, se quiser, confira no Node.</p>
+
+<h2>As regras</h2>
+<table>
+<tr><th>Lição</th><th>Regra</th></tr>
+<tr><td>02</td><td>a função recebe dados pelos parâmetros e devolve com <code>return</code>. Sem <code>return</code>, devolve <code>undefined</code></td></tr>
+<tr><td>02</td><td><code>somar</code> é a própria função. <code>somar(2, 3)</code> roda e vale o que o <code>return</code> devolveu</td></tr>
+<tr><td>02</td><td>o <code>return</code> devolve o valor e encerra a função</td></tr>
+<tr><td>03</td><td>arrow sem chaves devolve sozinha o valor da expressão. Com chaves, só devolve com <code>return</code></td></tr>
+<tr><td>04</td><td>uma callback é uma função passada como argumento. A função de fora chama ela</td></tr>
+<tr><td>04</td><td>passar <code>mostrar</code> passa a função. Passar <code>mostrar()</code> passa o que ela devolve</td></tr>
+</table>
+
+<h2>Questions</h2>
+<section id="Q1">
+<p><b>Q1.</b> O <code>repetir</code> da lição 04, com outra callback. Qual número aparece?</p>
+<pre class="code">function repetir(vezes, acao) {
+  for (let i = 1; i &lt;= vezes; i++) {
+    acao(i)
+  }
+}
+let total = 0
+repetir(4, (n) =&gt; { total = total + n })
+console.log(total)</pre>
+<pre class="answer">10</pre>
+<blockquote class="feedback">Certo: 1 + 2 + 3 + 4 = 10. O <code>repetir</code> chama a callback com 1, 2, 3 e 4, e ela soma cada número no <code>total</code>.</blockquote>
+</section>
+
+<section id="Q2">
+<p><b>Q2.</b> O que aparece?</p>
+<pre class="code">const formatar = (nome, p) =&gt; { "[P" + p + "] " + nome }
+console.log(formatar("Estudar", 2))</pre>
+<ul>
+<li>a) <code>[P2] Estudar</code></li>
+<li>b) <code>undefined</code></li>
+<li>c) um erro de sintaxe</li>
+<li>d) <code>[Function: formatar]</code></li>
+</ul>
+<pre class="answer">B</pre>
+<blockquote class="feedback">Certo: com chaves, a arrow só devolve com <code>return</code>. Sem ele, devolve <code>undefined</code> (MDN, "Arrow functions", "Function body").</blockquote>
+</section>
+
+<section id="Q3">
+<p><b>Q3.</b> Com a <code>checar(texto, validar)</code> da lição 04, qual linha testa o texto <code>"2"</code> com a <code>prioridadeValida</code> do jeito certo?</p>
+<ul>
+<li>a) <code>checar("2", prioridadeValida("2"))</code></li>
+<li>b) <code>checar("2", prioridadeValida())</code></li>
+<li>c) <code>checar("2", prioridadeValida)</code></li>
+<li>d) <code>checar(prioridadeValida, "2")</code></li>
+</ul>
+<pre class="answer">A</pre>
+<blockquote class="feedback"><p>Você escolheu a) <code>checar("2", prioridadeValida("2"))</code>. Rodei com as suas funções do <code>licao-04.js</code>:</p>
+<ul>
+<li><code>prioridadeValida("2")</code> roda primeiro e devolve <code>2</code>. Então o parâmetro <code>validar</code> recebe o número <code>2</code>.</li>
+<li>dentro da <code>checar</code>, <code>validar(texto)</code> vira <code>2("2")</code>: <code>TypeError: validar is not a function</code>.</li>
+</ul>
+<p>É o mesmo caso do <code>mostrar()</code> da lição 04. Pergunta: qual das quatro linhas manda para o <code>validar</code> a própria função, sem rodar ela? (MDN, glossário, "Callback function")</p></blockquote>
+<pre class="answer">C</pre>
+<blockquote class="feedback">Certo: <code>checar("2", prioridadeValida)</code> manda a própria função, e a <code>checar</code> chama ela por dentro com <code>validar(texto)</code>.</blockquote>
+</section>
+
+<section id="Q4">
+<p><b>Q4.</b> Qual número aparece?</p>
+<pre class="code">function classificar(p) {
+  if (p &gt;= 3) { return "Alta" }
+  if (p &gt;= 2) { return "Media" }
+  return "Baixa"
+}
+let alta = 0
+for (const p of [3, 1, 2, 3]) {
+  if (classificar(p) === "Alta") { alta++ }
+}
+console.log(alta)</pre>
+<pre class="answer">2</pre>
+<blockquote class="feedback">Certo: só os dois <code>3</code> passam no primeiro <code>if</code>. O <code>2</code> devolve <code>"Media"</code>, e o <code>return</code> encerra a função antes do <code>"Baixa"</code>.</blockquote>
+</section>
+
+<section id="Q5">
+<p><b>Q5.</b> Qual número aparece?</p>
+<pre class="code">const aplicar = (x, f) =&gt; f(x)
+console.log(aplicar(5, (n) =&gt; n * 2) + aplicar(1, (n) =&gt; n + 10))</pre>
+<pre class="answer">21</pre>
+<blockquote class="feedback">Certo: <code>aplicar(5, ...)</code> devolve 10, e <code>aplicar(1, ...)</code> devolve 11. Juntos dão 21.</blockquote>
+</section>
+
+<section id="Q6">
+<p><b>Q6.</b> O que aparece, nesta ordem?</p>
+<pre class="code">function quadrado(n) {
+  console.log(n * n)
+}
+const r = quadrado(3) + 1
+console.log(r)</pre>
+<ul>
+<li>a) <code>9</code>, depois <code>10</code></li>
+<li>b) <code>10</code> só</li>
+<li>c) <code>NaN</code>, depois <code>9</code></li>
+<li>d) <code>9</code>, depois <code>NaN</code></li>
+</ul>
+<pre class="answer">9 e NaN porque não tem return</pre>
+<blockquote class="feedback">Certo: o <code>console.log</code> de dentro mostra 9. Sem <code>return</code>, <code>quadrado(3)</code> vale <code>undefined</code>, e <code>undefined + 1</code> dá <code>NaN</code>. Essa é a regra do <code>+</code> da 1a.</blockquote>
+</section>
+
+<p class="pass">Agora você consegue ler código que junta <code>return</code>, arrow functions e callbacks, e dizer o que ele mostra.</p>
+
+<p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Funções"; referências "return" e "Arrow function expressions"; glossário, "Callback function".</p>

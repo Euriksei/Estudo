@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="400" height="390" viewBox="0 0 400 390">
+<rect width="400" height="390" fill="#ffffff"/>
+<g font-family="Consolas, Menlo, monospace" font-size="15" fill="#1a1a1a">
+<text x="16" y="26" font-family="system-ui, sans-serif" font-size="14" fill="#555">1. função comum</text>
+<rect x="12" y="36" width="376" height="76" rx="8" fill="#f1f3f8" stroke="#333"/>
+<text x="24" y="60">function triplo(n) {</text>
+<text x="48" y="81"><tspan fill="#b00020" font-weight="bold">return</tspan> n * 3</text>
+<text x="24" y="102">}</text>
+<text x="200" y="138" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#333">↓ tira "function", põe "=&gt;"</text>
+<text x="16" y="166" font-family="system-ui, sans-serif" font-size="14" fill="#555">2. arrow com chaves: precisa de return</text>
+<rect x="12" y="176" width="376" height="76" rx="8" fill="#f1f3f8" stroke="#333"/>
+<text x="24" y="200">const triplo = (n) =&gt; {</text>
+<text x="48" y="221"><tspan fill="#b00020" font-weight="bold">return</tspan> n * 3</text>
+<text x="24" y="242">}</text>
+<text x="200" y="278" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#333">↓ tira as chaves { } e o "return"</text>
+<text x="16" y="306" font-family="system-ui, sans-serif" font-size="14" fill="#555">3. arrow sem chaves: devolve sozinha</text>
+<rect x="12" y="316" width="376" height="40" rx="8" fill="#f1f3f8" stroke="#333"/>
+<text x="24" y="341">const triplo = (n) =&gt; <tspan fill="#1f7a4d" font-weight="bold">n * 3</tspan></text>
+<text x="200" y="378" text-anchor="middle" font-family="system-ui, sans-serif" font-size="14" fill="#333">nas três: triplo(4) devolve 12</text>
+</g>
+</svg>

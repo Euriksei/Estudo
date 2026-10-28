@@ -126,6 +126,53 @@ const y = somar(2, 3)</pre>
 </ul>
 <p>Pergunta: reescreva no <code>licao-02.js</code> para que <code>console.log(prioridadeValida("2.5"))</code> mostre <code>false</code> e <code>console.log(prioridadeValida("2"))</code> mostre <code>true</code>, num arquivo sem nenhum <code>prio</code> fora da função. Mande a saída das 5 chamadas.</p>
 </blockquote>
+<pre class="answer">Pronto agora renomei para licao-02</pre>
+<blockquote class="feedback">
+<p>Avançou: agora a função tem o parâmetro <code>Digitado</code> e não lê mais o <code>prio</code> de fora. Rodei as 5 chamadas da questão:</p>
+<table>
+<tr><th>Chamada</th><th>Mostrou</th><th>Devolveu</th><th>Esperado</th></tr>
+<tr><td><code>prioridadeValida("2")</code></td><td>Digite um número inteiro valido</td><td><code>undefined</code></td><td><code>true</code></td></tr>
+<tr><td><code>prioridadeValida("abc")</code></td><td>Digite um número inteiro valido</td><td><code>undefined</code></td><td><code>false</code></td></tr>
+<tr><td><code>prioridadeValida("2.5")</code></td><td>Digite um número inteiro valido</td><td><code>undefined</code></td><td><code>false</code></td></tr>
+<tr><td><code>prioridadeValida("")</code></td><td>Digite um número inteiro valido</td><td><code>undefined</code></td><td><code>false</code></td></tr>
+<tr><td><code>prioridadeValida("3")</code></td><td>Digite um número inteiro valido</td><td><code>undefined</code></td><td><code>true</code></td></tr>
+</table>
+<p>Faltam duas coisas:</p>
+<ul>
+<li>O <code>Number()</code> está fora, na linha do <code>prompt</code>. A função recebe o texto <code>"2"</code>, e <code>Number.isInteger("2")</code> é <code>false</code>. Por isso o <code>"2"</code> foi recusado.</li>
+<li>Ainda tem <code>console.log</code> dentro e nenhum <code>return</code>. Por isso a coluna "Devolveu" é toda <code>undefined</code>.</li>
+</ul>
+<p>Exemplo resolvido, em outro caso: uma função que diz se o texto digitado é um número par.</p>
+<pre class="code">function ehPar(texto) {
+  const n = Number(texto)
+  if (!Number.isInteger(n)) {
+    return false
+  }
+  return n % 2 === 0
+}
+console.log(ehPar("4"))
+console.log(ehPar("7"))
+console.log(ehPar("x"))</pre>
+<table>
+<tr><th>Passo</th><th>O que aconteceu</th></tr>
+<tr><td>1</td><td><code>ehPar("4")</code>: <code>texto</code> recebe o texto <code>"4"</code></td></tr>
+<tr><td>2</td><td>a conversão fica dentro da função: <code>n</code> vale o número 4</td></tr>
+<tr><td>3</td><td>4 é inteiro, então o primeiro <code>return</code> não roda</td></tr>
+<tr><td>4</td><td><code>4 % 2 === 0</code> é <code>true</code>, e o <code>return</code> devolve <code>true</code></td></tr>
+<tr><td>5</td><td>só o <code>console.log</code> de fora mostra algo: <code>true</code>, depois <code>false</code>, depois <code>false</code></td></tr>
+</table>
+<p>A função decide e devolve. Quem chama decide o que mostrar. Agora reescreva a sua <code>prioridadeValida</code> com essa forma, e mande a saída das 5 chamadas (<code>2 again: ...</code>).</p>
+</blockquote>
+<pre class="answer">Certo, eu estava pensando em uma função que so recebesse o parametro vindo do prompt, mas agora corrigi para que aceita o paremetro direto dentro da função, agora pode testar</pre>
+<blockquote class="feedback">
+<p>O arquivo foi salvo às 09:52. A única mudança foi mover o <code>Number()</code> da linha 11 para a linha 12: <code>prioridadeValida(Number(prio))</code>. A linha 12 ainda fica fora da função. "Dentro da função" quer dizer entre as chaves <code>{ }</code> das linhas 3 a 9. As 5 chamadas deram o mesmo resultado da tabela acima: todas recusadas, e todas devolvem <code>undefined</code>.</p>
+<p>Use o corpo do <code>ehPar</code> como modelo: <code>Number()</code> na primeira linha dentro da função, e <code>return</code> no lugar dos dois <code>console.log</code>.</p>
+</blockquote>
+<pre class="answer">pronto, agora esta certo</pre>
+<blockquote class="feedback">
+<p>Certo. O arquivo foi salvo às 10:06. Rodei a função com as 5 chamadas: <code>"2"</code> deu <code>true</code>, <code>"abc"</code> deu <code>false</code>, <code>"2.5"</code> deu <code>false</code>, <code>""</code> deu <code>false</code> e <code>"3"</code> deu <code>true</code>. O <code>Number()</code> está dentro da função, e o <code>if</code> de fora agora usa o valor que o <code>return</code> devolve.</p>
+<p>Um detalhe, sem refazer: na linha 13, o <code>Number(prio)</code> sobrou. A função já converte, então <code>prioridadeValida(prio)</code> basta.</p>
+</blockquote>
 </section>
 
 <section id="Q3">
@@ -153,5 +200,7 @@ console.log(triplo(4))</pre>
 </ul>
 <pre class="answer">retorna 12</pre>
 </section>
+
+<p class="pass">Agora você consegue escrever uma função que recebe dados por parâmetro e devolve o resultado com <code>return</code>, para quem chamou decidir o que fazer com ele.</p>
 
 <p style="font-size:.85rem;color:var(--muted)">Fonte: MDN Web Docs, Guia de JavaScript, "Funções", seções "Declarando uma função" e "Chamando funções"; referência da instrução <code>return</code>.</p>
